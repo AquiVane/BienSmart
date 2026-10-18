@@ -104,6 +104,7 @@ header .btn{min-height:42px;padding:8px 20px;font-size:.9rem;box-shadow:0 4px 14
 @media(min-width:680px){.cols{grid-template-columns:1fr 1fr}}
 .panel ul,.panel ol{margin:6px 0 0;padding-left:1.2rem}
 .panel li{margin-bottom:4px}
+.meal+.meal{margin-top:28px;padding-top:24px;border-top:1px solid var(--rose-l)}
 .macros{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
 .macros span{background:var(--rose-l);color:var(--magenta-d);border-radius:100px;padding:5px 14px;font-size:.82rem;font-weight:600}
 .locked{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:10px;margin-top:24px}
@@ -235,34 +236,78 @@ footer strong,footer a{color:var(--white)}
   <div class="wrap">
     <span class="eyebrow">Día de muestra</span>
     <h2>Así es un día del reto</h2>
-    <p class="lead" style="margin-top:12px">Este es el Día 1, tal cual está en el ebook.</p>
+    <p class="lead" style="margin-top:12px">Este es el Día 1 completo, tal cual está en el ebook.</p>
     <div class="day">
-      <div class="day-head"><span class="eyebrow">Día 1 · Lunes</span><h3>¡Arrancamos! Energía desde el primer día</h3></div>
+      <div class="day-head"><span class="eyebrow">Día 1 · Lunes</span><h3>¡Arrancamos! Energía desde el primer día</h3><p style="margin-top:8px;font-size:.9rem;color:var(--magenta-d)">Proteína del día: 90–105 g · Sin harinas · Sin azúcar</p></div>
       <div class="tabs" role="tablist" aria-label="Contenido del día">
         <button class="tab" role="tab" id="t-com" aria-selected="true" aria-controls="p-com" data-p="p-com">Comida</button>
         <button class="tab" role="tab" id="t-tip" aria-selected="false" aria-controls="p-tip" data-p="p-tip">Tip</button>
         <button class="tab" role="tab" id="t-rut" aria-selected="false" aria-controls="p-rut" data-p="p-rut">Rutina</button>
       </div>
       <div class="panel" id="p-com" role="tabpanel" aria-labelledby="t-com">
-        <span class="eyebrow">Desayuno</span>
-        <h4>Pancakes de banana y huevo</h4>
-        <div class="cols">
-          <div><strong>Ingredientes</strong>
-            <ul><li>1 banana madura</li><li>2 huevos</li><li>1 cdita de canela</li><li>1 cdita de esencia de vainilla</li><li>1 cda de semillas de chía (opcional)</li><li>Aceite de coco</li></ul></div>
-          <div><strong>Paso a paso</strong>
-            <ol><li>Pisá la banana hasta hacer un puré.</li><li>Sumá huevos, canela, vainilla y semillas.</li><li>Mezclá bien.</li><li>Cociná en sartén antiadherente, en porciones chicas, 2 minutos por lado.</li></ol></div>
+        <div class="meal">
+          <span class="eyebrow">Desayuno</span>
+          <h4>Pancakes de banana y huevo</h4>
+          <div class="cols">
+            <div><strong>Ingredientes</strong><ul><li>1 banana madura</li><li>2 huevos</li><li>1 cdita canela</li><li>1 cdita esencia de vainilla</li><li>1 cda semillas de chía (opcional)</li><li>Aceite de coco</li></ul></div>
+            <div><strong>Paso a paso</strong><ol><li>Pisá la banana hasta hacer un puré</li><li>Sumá huevos, canela, vainilla y semillas</li><li>Mezclá bien</li><li>Cociná en sartén antiadherente, porciones chicas, 2 min por lado</li></ol></div>
+          </div>
+          <div class="macros"><span>13–15 g proteína</span><span>0 g harinas</span><span>0 g azúcar</span></div>
         </div>
-        <div class="macros"><span>13–15 g de proteína</span><span>0 g de harinas</span><span>0 g de azúcar</span></div>
+        <div class="meal">
+          <span class="eyebrow">Colación</span>
+          <h4>Yogur griego con chía y frutos rojos</h4>
+          <div class="cols">
+            <div><strong>Ingredientes</strong><ul><li>150 g yogur griego s/azúcar</li><li>1 cda sopera de chía</li><li>½ taza frutos rojos</li><li>5 nueces o 8 almendras</li><li>Canela a gusto</li></ul></div>
+            <div><strong>Paso a paso</strong><ol><li>Poné el yogur en un bowl</li><li>Sumá chía y mezclá</li><li>Agregá los frutos rojos</li><li>Terminá con nueces y canela</li></ol></div>
+          </div>
+          <div class="macros"><span>15–18 g proteína</span><span>6–8 g fibra</span><span>0 g azúcar</span></div>
+        </div>
+        <div class="meal">
+          <span class="eyebrow">Almuerzo</span>
+          <h4>Bowl de pollo, quinoa, palta y vegetales</h4>
+          <div class="cols">
+            <div><strong>Ingredientes</strong><ul><li>120 g pechuga de pollo</li><li>½ taza quinoa cocida</li><li>½ palta chica</li><li>1 taza vegetales salteados</li><li>Aceite de oliva, limón, cúrcuma</li></ul></div>
+            <div><strong>Paso a paso</strong><ol><li>Cociná la quinoa (doble de agua)</li><li>Grillá el pollo con condimentos</li><li>Salteá los vegetales</li><li>Armá el bowl y terminá con oliva y limón</li></ol></div>
+          </div>
+          <div class="macros"><span>30–35 g proteína</span><span>8–10 g fibra</span><span>0 g azúcar</span></div>
+        </div>
+        <div class="meal">
+          <span class="eyebrow">Merienda</span>
+          <h4>Rollitos de jamón, queso y palta</h4>
+          <div class="cols">
+            <div><strong>Ingredientes</strong><ul><li>2 fetas jamón cocido natural</li><li>2 fetas queso magro</li><li>¼ palta</li><li>1 mandarina o ½ manzana</li><li>Chía opcional</li></ul></div>
+            <div><strong>Paso a paso</strong><ol><li>Poné el queso sobre el jamón</li><li>Sumá tiritas de palta</li><li>Enrollá como mini wraps</li><li>Acompañá con la fruta</li></ol></div>
+          </div>
+          <div class="macros"><span>12–16 g proteína</span><span>4–6 g fibra</span><span>0 g azúcar</span></div>
+        </div>
+        <div class="meal">
+          <span class="eyebrow">Cena</span>
+          <h4>Tortilla proteica de espinaca y queso</h4>
+          <div class="cols">
+            <div><strong>Ingredientes</strong><ul><li>2 huevos + 2 claras</li><li>40 g queso magro</li><li>1 taza espinaca</li><li>½ taza champiñones o zucchini</li><li>Aceite de oliva, condimentos</li></ul></div>
+            <div><strong>Paso a paso</strong><ol><li>Salteá la espinaca y los vegetales</li><li>Batí huevos con claras y condimentos</li><li>Sumá vegetales y queso</li><li>Cociná en sartén a fuego medio-bajo</li></ol></div>
+          </div>
+          <div class="macros"><span>28–32 g proteína</span><span>7–9 g fibra</span><span>0 g azúcar</span></div>
+        </div>
       </div>
       <div class="panel" id="p-tip" role="tabpanel" aria-labelledby="t-tip" hidden>
         <span class="eyebrow">Tip 1</span>
         <h4>La proteína: tu mejor aliada</h4>
-        <p>No esperes a la cena para acordarte de la proteína. Lo ideal es repartirla durante el día: desayuno, almuerzo, merienda y cena.</p>
+        <p>No esperés a la cena para acordarte de la proteína. Lo ideal es repartirla durante el día: desayuno, almuerzo, merienda y cena. Cada comida principal debería tener al menos 25 g.</p>
+        <ul style="margin-top:12px"><li>Mantiene y repara músculo, mejora la saciedad y cuida el metabolismo.</li><li>Reduce el picoteo y la ansiedad por dulce al mantener niveles de glucosa estables.</li><li>Meta del reto: 1,2 g de proteína por kg de peso corporal por día.</li></ul>
+        <p style="margin-top:14px"><strong>Fuentes de proteína</strong></p>
+        <ul><li>Huevos — versátiles y económicos</li><li>Yogur griego natural sin azúcar</li><li>Carnes magras: pollo, lomo, nalga</li><li>Pescado, queso magro, ricota</li></ul>
       </div>
       <div class="panel" id="p-rut" role="tabpanel" aria-labelledby="t-rut" hidden>
         <span class="eyebrow">Cuerpo completo</span>
-        <h4>Activación general y energía</h4>
-        <ul><li>Sentadillas: 12 repeticiones</li><li>Flexiones (rodillas o pared): 10 repeticiones</li><li>Puente de glúteos: 15 repeticiones</li><li>Plancha: 20–30 segundos</li><li>Estocadas alternadas: 10 por pierna</li></ul>
+        <h4>Activación general, fuerza básica y energía para empezar la semana.</h4>
+        <div class="cols">
+          <div><strong>Calentamiento</strong><ul><li>Marcha en el lugar — 1 min</li><li>Círculos de hombros</li><li>Sentadillas suaves — 10 reps</li><li>Movilidad de cadera</li><li>Respiración profunda — 1 min</li></ul></div>
+          <div><strong>Ejercicios</strong><ol><li>Sentadillas: 12 repeticiones</li><li>Flexiones (rodillas o pared): 10 repeticiones</li><li>Puente de glúteos: 15 repeticiones</li><li>Plancha: 20–30 segundos</li><li>Estocadas alternadas: 10 por pierna</li><li>Abdominal dead bug: 10 por lado</li></ol></div>
+        </div>
+        <p style="margin-top:14px">3 vueltas · 30–45 seg de descanso entre ejercicios</p>
+        <p style="margin-top:8px"><em>Estoy cuidando mi cuerpo, estoy creando mi mejor versión.</em></p>
       </div>
     </div>
     <div class="locked" id="locked" aria-label="Días 2 a 21"></div>
