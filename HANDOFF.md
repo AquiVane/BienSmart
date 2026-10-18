@@ -5,9 +5,9 @@ Actualizado: 2026-10-18. Zona horaria: Buenos Aires (UTC-3). Idioma: español ri
 ## Qué es
 Producto digital de Aquí Vaneh: **reto de 21 días "Sin harinas ni azúcar"**. Se vende un ebook PDF y el acceso a una app de progreso. No hay acompañamiento personal (no mencionarlo en ningún texto).
 - Dominio: `biensmart.vamatienda.com.ar` (archivo `CNAME`; Vaneh crea el subdominio en Cloudflare).
-- Rutas: `/habitos-biensmart/` (landing de venta), `/habitos-biensmart/guia-gratuita/` (mini guía), `/descargas/` (app; hoy es un placeholder "Tu app está en camino"). `/` redirige a la landing.
+- Rutas: `/habitos/` (landing de venta), `/habitos/guia-gratuita/` (mini guía), `/descargas/` (app; hoy es un placeholder "Tu app está en camino"). `/` redirige a la landing.
 - Ebook PDF y app: pendientes.
-- Mini guía gratuita (lead magnet): página propia `habitos-biensmart/guia-gratuita/index.html` (formulario y gracias con botón a la landing de venta). La landing de venta NO lleva la guía. Texto de la guía pendiente de escribir. Título propuesto: "5 desayunos sin harina ni azúcar, listos en 10 minutos".
+- Mini guía gratuita (lead magnet): página propia `habitos/guia-gratuita/index.html` (formulario y gracias con botón a la landing de venta). La landing de venta NO lleva la guía. Texto de la guía pendiente de escribir. Título propuesto: "5 desayunos sin harina ni azúcar, listos en 10 minutos".
 
 ## Contenido fuente
 Los 21 días (comidas, tip, rutina) ya están escritos por Vaneh en su sitio https://aquivanehr21.netlify.app/ (archivo `index.html` de ese sitio, constante `RETO`). Se reutiliza tal cual; no reescribir.
