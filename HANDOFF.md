@@ -4,9 +4,10 @@ Actualizado: 2026-10-18. Zona horaria: Buenos Aires (UTC-3). Idioma: español ri
 
 ## Qué es
 Producto digital de Aquí Vaneh: **reto de 21 días "Sin harinas ni azúcar"**. Se vende un ebook PDF y el acceso a una app de progreso. No hay acompañamiento personal (no mencionarlo en ningún texto).
-- Landing de venta: `index.html` (este repo).
+- Dominio: `biensmart.vamatienda.com.ar` (archivo `CNAME`; Vaneh crea el subdominio en Cloudflare).
+- Rutas: `/habitos-biensmart/` (landing de venta), `/habitos-biensmart/guia-gratuita/` (mini guía), `/descargas/` (app; hoy es un placeholder "Tu app está en camino"). `/` redirige a la landing.
 - Ebook PDF y app: pendientes.
-- Mini guía gratuita (lead magnet): página propia `guia.html` (formulario y gracias con botón a la landing de venta). La landing de venta NO lleva la guía. Texto de la guía pendiente de escribir. Título propuesto: "5 desayunos sin harina ni azúcar, listos en 10 minutos".
+- Mini guía gratuita (lead magnet): página propia `habitos-biensmart/guia-gratuita/index.html` (formulario y gracias con botón a la landing de venta). La landing de venta NO lleva la guía. Texto de la guía pendiente de escribir. Título propuesto: "5 desayunos sin harina ni azúcar, listos en 10 minutos".
 
 ## Contenido fuente
 Los 21 días (comidas, tip, rutina) ya están escritos por Vaneh en su sitio https://aquivanehr21.netlify.app/ (archivo `index.html` de ese sitio, constante `RETO`). Se reutiliza tal cual; no reescribir.
@@ -28,6 +29,6 @@ Los 21 días (comidas, tip, rutina) ya están escritos por Vaneh en su sitio htt
 1. Aprobación de Vaneh de textos y de la landing (preview en artifact).
 2. Backend de cobro: registrar el producto en `cosmart-training-core` (`COURSES`, `PAYPAL_MIN_USD`) y `mp-productos-ganadores` (`PRODUCTOS`) en `AquiVane/cosmart-workers`, y permitir el origen de la landing. Deploy manual: avisar a Vaneh antes.
 3. Embeber Brick de Mercado Pago y PayPal en `index.html` (hoy los botones son de vista previa).
-4. Conectar el formulario de `guia.html` a `POST /leadmagnet/captura` (training-core) y que entregue la guía por mail.
+4. Conectar el formulario de la guía gratuita a `POST /leadmagnet/captura` (training-core) y que entregue la guía por mail.
 5. Frase exacta de derechos de autor del ebook de "IA para Emprendedores" (está dentro del PDF): igualarla.
 6. Ebook PDF, app (PWA con progreso por día), precio de PayPal validado contra `PAYPAL_MIN_USD`.
