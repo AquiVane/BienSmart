@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Guía gratis BienSmart</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&display=swap">
+<style>
+/* Concepto: la estética original de Aquí Vaneh. Crema con degradés pastel, pastillas blancas, formas orgánicas y botón magenta a coral. */
+:root{
+  --magenta:#C2185B; --magenta-d:#880E4F; --rose:#F06292; --rose-l:#FCE4EC; --rose-m:#F8BBD9;
+  --blush:#FFF0F5; --cream:#FFF9FA; --coral:#FF6B8A; --lilac:#CE93D8; --lilac-l:#F6EAF8;
+  --dark:#1A0A10; --ink:#3D1520; --mid:#4A1530; --muted:#8A5A6A; --white:#FFFFFF;
+  --display:'DM Serif Display',Georgia,serif; --accent:'Playfair Display',Georgia,serif; --body:'DM Sans',system-ui,sans-serif;
+  --shadow:0 8px 28px rgba(194,24,91,.14);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.65;overflow-x:hidden}
+.wrap{max-width:1080px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));position:relative;z-index:1}
+section{padding-block:72px;position:relative;overflow:hidden}
+h1,h2,h3,h4{margin:0;text-wrap:balance}
+h1,h2{font-family:var(--accent);font-weight:900;line-height:1.05;color:var(--dark)}
+h2{font-size:clamp(2rem,5.4vw,3.1rem)}
+h3{font-family:var(--display);font-weight:400;font-size:1.35rem;line-height:1.15;color:var(--magenta-d)}
+em{font-family:var(--accent);font-style:italic;font-weight:700;color:var(--magenta)}
+p{margin:0}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:.74rem;letter-spacing:.17em;text-transform:uppercase;font-weight:700;color:var(--magenta);background:rgba(194,24,91,.08);padding:6px 16px;border-radius:100px;margin-bottom:18px}
+.eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--magenta)}
+.lead{font-size:1.08rem;color:var(--muted);max-width:58ch}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:14px 32px;border-radius:100px;border:2px solid transparent;background:linear-gradient(135deg,var(--magenta),var(--coral));color:var(--white);font:600 1rem var(--body);cursor:pointer;text-decoration:none;box-shadow:0 8px 28px rgba(194,24,91,.32);transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 14px 36px rgba(194,24,91,.4)}
+.btn:focus-visible,input:focus-visible,summary:focus-visible,.tab:focus-visible,.locked button:focus-visible{outline:3px solid var(--rose);outline-offset:3px}
+.btn.ghost{background:var(--white);color:var(--magenta-d);border-color:rgba(194,24,91,.25);box-shadow:0 2px 10px rgba(194,24,91,.08)}
+.btn.ghost:hover{background:var(--rose-l)}
+.row{display:flex;flex-wrap:wrap;gap:12px}
+.pills{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 34px;padding:0;list-style:none}
+.pills li{font-size:.82rem;font-weight:500;padding:7px 16px;border-radius:100px;background:var(--white);color:var(--magenta-d);border:1px solid rgba(194,24,91,.18);box-shadow:0 2px 8px rgba(194,24,91,.06)}
+.deco{position:absolute;border-radius:50%;pointer-events:none}
+/* header */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(255,249,250,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--rose-l)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--cream)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:10px}
+.brand{font-family:var(--accent);font-weight:900;color:var(--dark);font-size:1.15rem;text-decoration:none}
+.brand span{color:var(--magenta);font-style:italic;font-weight:400}
+header .btn{min-height:42px;padding:8px 20px;font-size:.9rem;box-shadow:0 4px 14px rgba(194,24,91,.25)}
+/* hero */
+.hero{background:radial-gradient(ellipse 80% 60% at 75% 15%,rgba(240,98,146,.22),transparent 60%),radial-gradient(ellipse 60% 80% at 8% 85%,rgba(194,24,91,.12),transparent 55%),radial-gradient(ellipse 50% 50% at 92% 92%,rgba(206,147,216,.2),transparent 50%),var(--cream);padding-block:64px 72px}
+.hero .wrap{display:grid;grid-template-columns:1fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(2.9rem,10vw,5.4rem);margin-bottom:10px}
+.hero .sub{font-family:var(--accent);font-style:italic;font-size:clamp(1.1rem,3vw,1.5rem);color:var(--magenta);margin-bottom:18px}
+.hero .lead{margin-bottom:24px}
+.visual{position:relative;display:grid;place-items:center;min-height:340px}
+.blob{position:relative;width:min(320px,78vw);aspect-ratio:4/5;background:linear-gradient(145deg,var(--rose-l),rgba(194,24,91,.12));border-radius:60% 40% 55% 45%/45% 55% 45% 55%;animation:morph 8s ease-in-out infinite}
+.blob i{position:absolute;inset:16px;background:linear-gradient(160deg,#FCE4EC,#F8BBD9 55%,#F48FB1);border-radius:inherit;box-shadow:var(--shadow);display:grid;place-content:center;text-align:center;padding:20px}
+.blob b{font-family:var(--accent);font-weight:900;font-size:clamp(4.5rem,18vw,6.5rem);line-height:.9;color:var(--white);text-shadow:0 4px 18px rgba(194,24,91,.3);font-style:normal}
+.blob span{font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--magenta-d)}
+.float{position:absolute;background:var(--white);border-radius:16px;padding:9px 14px;box-shadow:0 6px 22px rgba(194,24,91,.15);font-size:.8rem;font-weight:700;color:var(--magenta-d);animation:bob 4s ease-in-out infinite}
+.float.a{top:6%;left:0}.float.b{top:22%;right:0;animation-delay:-1.5s}.float.c{bottom:10%;left:2%;animation-delay:-3s}
+@keyframes morph{0%,100%{border-radius:60% 40% 55% 45%/45% 55% 45% 55%}50%{border-radius:40% 60% 45% 55%/55% 45% 55% 45%}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@media(min-width:860px){.hero .wrap{grid-template-columns:1.1fr .9fr;gap:56px}}
+/* why 21 */
+.why{background:linear-gradient(180deg,var(--cream),var(--rose-l))}
+.why-grid{display:grid;grid-template-columns:1fr;gap:30px;margin-top:26px;align-items:center}
+.bigcircle{aspect-ratio:1;width:min(220px,60%);border-radius:50%;background:radial-gradient(circle at 30% 25%,var(--white),var(--rose-m));box-shadow:var(--shadow);display:grid;place-content:center;text-align:center;font-family:var(--accent);color:var(--magenta)}
+.bigcircle b{font-size:4.8rem;line-height:1;font-weight:900}
+.bigcircle small{font-family:var(--body);font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--magenta-d)}
+.why p+p{margin-top:14px}
+.note{font-size:.82rem;color:var(--muted)}
+@media(min-width:760px){.why-grid{grid-template-columns:240px 1fr;gap:56px}}
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin-top:30px}
+.card{background:var(--white);border:1px solid var(--rose-l);border-radius:24px;padding:24px;box-shadow:0 4px 18px rgba(194,24,91,.06)}
+.card:nth-child(2){background:var(--lilac-l)}.card:nth-child(3){background:var(--blush)}.card:nth-child(4){background:var(--rose-l)}
+.card h3{margin-bottom:8px}
+.card p{color:var(--muted);font-size:.95rem}
+.tag{display:inline-block;background:var(--white);color:var(--magenta-d);border-radius:100px;font-size:.7rem;font-weight:700;padding:3px 12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;border:1px solid rgba(194,24,91,.15)}
+/* weeks */
+.weeks-sec{background:var(--blush)}
+.weeks{display:grid;gap:18px;margin-top:30px;grid-template-columns:1fr}
+.week{background:var(--white);border-radius:24px;padding:24px;box-shadow:0 4px 18px rgba(194,24,91,.07);border:1px solid var(--rose-l)}
+.week .eyebrow{margin-bottom:12px}
+.week:nth-child(2) .eyebrow{background:rgba(206,147,216,.22)}
+.week:nth-child(3) .eyebrow{background:rgba(255,107,138,.16)}
+.week h3{margin-bottom:6px}
+.week p{color:var(--muted);font-size:.95rem}
+@media(min-width:800px){.weeks{grid-template-columns:repeat(3,1fr)}}
+/* sample */
+.sample{background:linear-gradient(180deg,var(--blush),var(--lilac-l))}
+.day{background:var(--white);border:1px solid var(--rose-l);border-radius:28px;overflow:hidden;margin-top:28px;box-shadow:var(--shadow)}
+.day-head{background:linear-gradient(135deg,var(--rose-l),var(--rose-m));padding:22px 24px}
+.day-head .eyebrow{background:rgba(255,255,255,.65);margin-bottom:10px}
+.day-head h3{color:var(--dark);font-size:1.5rem}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;padding:16px 18px 0}
+.tab{border:1px solid rgba(194,24,91,.18);background:var(--white);color:var(--magenta-d);border-radius:100px;padding:8px 18px;font:600 .88rem var(--body);cursor:pointer;min-height:42px}
+.tab[aria-selected="true"]{background:linear-gradient(135deg,var(--magenta),var(--coral));color:var(--white);border-color:transparent}
+.panel{padding:20px 24px 28px}
+.panel h4{font-family:var(--display);font-weight:400;font-size:1.35rem;color:var(--magenta-d);margin:0 0 12px}
+.panel .eyebrow{margin-bottom:10px}
+.cols{display:grid;grid-template-columns:1fr;gap:20px}
+@media(min-width:680px){.cols{grid-template-columns:1fr 1fr}}
+.panel ul,.panel ol{margin:6px 0 0;padding-left:1.2rem}
+.panel li{margin-bottom:4px}
+.macros{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.macros span{background:var(--rose-l);color:var(--magenta-d);border-radius:100px;padding:5px 14px;font-size:.82rem;font-weight:600}
+.locked{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:10px;margin-top:24px}
+.locked button{border:1px dashed var(--rose);background:rgba(255,255,255,.6);color:var(--muted);border-radius:16px;padding:10px 0;font:600 .85rem var(--body);cursor:pointer;min-height:46px}
+.locked button:hover{background:var(--white);color:var(--magenta-d)}
+.locked-note{font-size:.9rem;color:var(--muted);margin-top:12px}
+/* about */
+.about-sec{background:linear-gradient(180deg,var(--lilac-l),var(--cream))}
+.about{display:grid;grid-template-columns:1fr;gap:34px;align-items:center}
+.portrait{position:relative;width:min(300px,80%);aspect-ratio:4/5;border-radius:60% 40% 55% 45%/45% 55% 45% 55%;background:linear-gradient(160deg,var(--rose-l),var(--rose-m) 55%,#F48FB1);box-shadow:var(--shadow);display:grid;place-content:center;color:var(--white);font-family:var(--accent);font-weight:700;font-size:1.1rem;text-align:center;padding:20px;text-shadow:0 2px 10px rgba(194,24,91,.35)}
+@media(min-width:760px){.about{grid-template-columns:320px 1fr;gap:64px}}
+.about p+p{margin-top:12px}
+.stats{display:flex;flex-wrap:wrap;gap:14px;margin-top:24px}
+.stats div{background:var(--white);border-radius:20px;padding:12px 20px;box-shadow:0 4px 16px rgba(194,24,91,.08)}
+.stats b{display:block;font-family:var(--accent);font-weight:900;font-size:1.9rem;line-height:1.1;color:var(--magenta)}
+.stats span{font-size:.8rem;color:var(--muted)}
+/* lead magnet */
+.magnet{background:linear-gradient(135deg,var(--rose-l),var(--lilac-l))}
+.mag-grid{display:grid;grid-template-columns:1fr;gap:32px;align-items:center}
+@media(min-width:800px){.mag-grid{grid-template-columns:1.1fr 1fr;gap:56px}}
+form.box{background:var(--white);border-radius:26px;padding:26px;display:grid;gap:14px;box-shadow:var(--shadow)}
+label{font-size:.85rem;font-weight:700;color:var(--magenta-d);display:grid;gap:6px}
+input[type=text],input[type=email]{font:1rem var(--body);padding:12px 16px;border:1.5px solid #EBC9D6;border-radius:14px;background:var(--cream);color:var(--ink);width:100%;min-height:50px}
+.check{display:flex;gap:10px;align-items:flex-start;font-weight:400;font-size:.85rem;color:var(--ink)}
+.check input{margin-top:3px;width:18px;height:18px;accent-color:var(--magenta);flex:none}
+.msg{font-size:.9rem;padding:12px 16px;border-radius:14px;background:#E8F5E9;color:#1B5E20}
+.err{font-size:.82rem;color:#B00020;min-height:1em}
+/* buy */
+.buy{background:linear-gradient(180deg,var(--cream),var(--blush))}
+.buy-grid{display:grid;grid-template-columns:1fr;gap:32px;align-items:start}
+@media(min-width:800px){.buy-grid{grid-template-columns:1fr 1fr;gap:56px}}
+.price{font-family:var(--accent);font-weight:900;font-size:3.4rem;color:var(--magenta);line-height:1;margin:10px 0 4px}
+.price small{font-family:var(--body);font-weight:400;font-size:.9rem;color:var(--muted)}
+.price-old{font-size:1.15rem;color:var(--muted);text-decoration:line-through}
+.off-badge{display:inline-block;background:linear-gradient(135deg,var(--magenta),var(--coral));color:var(--white);border-radius:100px;font-size:.78rem;font-weight:700;padding:4px 14px;margin-left:8px;vertical-align:middle}
+.incl{list-style:none;padding:0;margin:20px 0 0;display:grid;gap:10px}
+.incl li{padding-left:28px;position:relative}
+.incl li::before{content:"";position:absolute;left:2px;top:.55em;width:11px;height:11px;border-radius:50%;background:linear-gradient(135deg,var(--magenta),var(--coral))}
+.pay{background:var(--white);border:1px solid var(--rose-l);border-radius:26px;padding:26px;display:grid;gap:14px;box-shadow:var(--shadow)}
+.paytabs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.paytabs .tab{border-radius:16px;text-align:center}
+.paybody{border:1.5px dashed var(--rose);border-radius:16px;padding:16px;font-size:.9rem;color:var(--muted);min-height:96px;background:var(--cream)}
+.pay.off .paytabs,.pay.off .paybody{opacity:.45;pointer-events:none}
+.hint{font-size:.82rem;color:var(--muted)}
+/* faq */
+.faq-sec{background:var(--cream)}
+details{background:var(--white);border:1px solid var(--rose-l);border-radius:20px;padding:16px 22px;margin-bottom:10px}
+summary{cursor:pointer;font-weight:700;color:var(--magenta-d);list-style:none;display:flex;justify-content:space-between;gap:12px;min-height:32px;align-items:center}
+summary::after{content:"+";font-size:1.5rem;line-height:1;color:var(--magenta)}
+details[open] summary::after{content:"–"}
+summary::-webkit-details-marker{display:none}
+details p{color:var(--muted);margin-top:8px;max-width:64ch}
+/* footer */
+footer{background:var(--mid);color:#F5DDE7;padding-block:44px}
+footer p{font-size:.85rem;max-width:80ch}
+footer p+p{margin-top:10px}
+footer strong,footer a{color:var(--white)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--mid);color:var(--white);padding:12px 22px;border-radius:100px;font-size:.9rem;opacity:0;pointer-events:none;transition:.25s;z-index:40;max-width:calc(100% - 32px);text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:600px){.hero .row{flex-direction:column}.hero .row .btn,.pay .btn,form.box .btn{width:100%}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+.guia-hero{background:radial-gradient(ellipse 80% 60% at 75% 15%,rgba(240,98,146,.22),transparent 60%),radial-gradient(ellipse 60% 80% at 8% 85%,rgba(194,24,91,.12),transparent 55%),radial-gradient(ellipse 50% 50% at 92% 92%,rgba(206,147,216,.2),transparent 50%),var(--cream);padding-block:56px 72px}
+.guia-hero .wrap{display:grid;grid-template-columns:1fr;gap:36px;align-items:center}
+.guia-hero h1{font-size:clamp(2.4rem,8vw,4.2rem);margin-bottom:14px}
+.list{list-style:none;padding:0;margin:20px 0 0;display:grid;gap:10px}
+.list li{padding-left:28px;position:relative}
+.list li::before{content:"";position:absolute;left:2px;top:.55em;width:11px;height:11px;border-radius:50%;background:linear-gradient(135deg,var(--magenta),var(--coral))}
+.thanks{display:grid;gap:14px}
+.thanks h3{font-size:1.5rem}
+@media(min-width:860px){.guia-hero .wrap{grid-template-columns:1.1fr .9fr;gap:56px}}
+@media(max-width:600px){form.box .btn,.thanks .btn{width:100%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="brand" href="#top">Hábitos <span>BienSmart</span></a>
+  </div>
+</header>
+<main id="top">
+<section class="guia-hero">
+  <div class="deco" style="width:420px;height:420px;border:1px solid rgba(194,24,91,.1);top:-120px;right:-100px"></div>
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Guía gratis · Aquí Vaneh</span>
+      <h1>5 desayunos <em>sin harina ni azúcar</em>, listos en 10 minutos</h1>
+      <p class="lead">Una mini guía con cinco recetas simples para probar el estilo del reto antes de empezar. Te la enviamos por mail.</p>
+      <ul class="list">
+        <li>Cinco recetas fáciles, con ingredientes de todos los días</li>
+        <li>Sin harinas refinadas ni azúcar agregada</li>
+        <li>Pensadas para las mañanas con poco tiempo</li>
+      </ul>
+    </div>
+    <div>
+      <form class="box" id="leadForm" novalidate>
+        <h3>Quiero mi guía gratis</h3>
+        <label for="lead-nombre">Tu nombre<input type="text" id="lead-nombre" autocomplete="given-name" placeholder="María"></label>
+        <label for="lead-email">Tu email<input type="email" id="lead-email" autocomplete="email" placeholder="maria@mail.com"></label>
+        <label class="check" for="lead-ok"><input type="checkbox" id="lead-ok"> Acepto recibir la guía y novedades de Aquí Vaneh por email. Puedo darme de baja cuando quiera.</label>
+        <div class="err" id="leadErr" role="alert"></div>
+        <button class="btn" type="submit">Enviarme la guía</button>
+      </form>
+      <div class="box thanks" id="thanks" hidden>
+        <h3>¡Listo! Revisá tu mail</h3>
+        <p>Te enviamos la guía. Si no aparece en unos minutos, mirá la carpeta de spam.</p>
+        <p>Mientras tanto, conocé el reto completo: 21 días de menús, tips y rutinas, con ebook y app.</p>
+        <a class="btn" href="index.html">Conocer el reto de 21 días</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<footer>
+  <div class="wrap">
+    <p><strong>Aviso de salud.</strong> Este contenido es informativo y no reemplaza la consulta con un profesional de la salud. Si tenés diabetes, alergias, estás embarazada o seguís un tratamiento, consultá antes de cambiar tu alimentación.</p>
+    <p><strong>Derechos de autor.</strong> © 2026 Aquí Vaneh · BienSmart. Todos los derechos reservados. Queda prohibida la copia, reproducción, distribución, reventa o publicación, total o parcial, de esta guía por cualquier medio, sin autorización escrita de su autora.</p>
+    <p>Seguime en <a href="https://www.instagram.com/aqui.vaneh" target="_blank" rel="noopener">@aqui.vaneh</a></p>
+  </div>
+</footer>
+<script>
+(function(){
+  var $=function(s){return document.querySelector(s)};
+  var ok=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  $('#leadForm').addEventListener('submit',function(e){
+    e.preventDefault();
+    var n=$('#lead-nombre').value.trim(),m=$('#lead-email').value.trim(),c=$('#lead-ok').checked,er=$('#leadErr');
+    if(!n){er.textContent='Escribí tu nombre.';return}
+    if(!ok.test(m)){er.textContent='Revisá tu email, parece incompleto.';return}
+    if(!c){er.textContent='Tildá la casilla para recibir la guía.';return}
+    er.textContent='';$('#leadForm').hidden=true;$('#thanks').hidden=false;
+    $('#thanks').scrollIntoView({behavior:'smooth',block:'center'});
+  });
+})();
+</script>
+</body>
+</html>
