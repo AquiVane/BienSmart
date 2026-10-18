@@ -30,4 +30,4 @@ Los 21 días (comidas, tip, rutina) ya están escritos por Vaneh en su sitio htt
 3. Embeber Brick de Mercado Pago y PayPal en `index.html` (hoy los botones son de vista previa).
 4. Conectar el formulario de `guia.html` a `POST /leadmagnet/captura` (training-core) y que entregue la guía por mail.
 5. Frase exacta de derechos de autor del ebook de "IA para Emprendedores" (está dentro del PDF): igualarla.
-6. Ebook PDF, app (PWA con progreso por día), foto de Vaneh, precio de PayPal validado contra `PAYPAL_MIN_USD`.
+6. Ebook PDF, app (PWA con progreso por día), precio de PayPal validado contra `PAYPAL_MIN_USD`.
