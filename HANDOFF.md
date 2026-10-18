@@ -23,7 +23,9 @@ Los 21 días (comidas, tip, rutina) ya están escritos por Vaneh en su sitio htt
 - Cobro con Mercado Pago (Brick) y PayPal **embebidos en la landing** (opción B). Nunca sacar a la persona del checkout.
 - Los 21 días NO se presentan como "tiempo en que se fija un hábito" (el estudio de Lally et al. 2010 encontró un promedio de 66 días, rango 18–254). Se presentan como empujón inicial. Vaneh pidió NO mencionar el estudio en la landing.
 - Estética: replicar la de su sitio original (crema, degradés pastel, pastillas blancas, formas orgánicas, botón magenta→coral). Sin bandas oscuras. Botones a ancho completo en mobile.
-- Todo ebook lleva aviso de derechos de autor (prohibida copia/reproducción) y aviso de salud.
+- Todo ebook lleva aviso de derechos de autor y aviso de salud. Texto oficial (modelo: ebook IA para Emprendedores, adaptado y aprobado por Vaneh 18/10): "© 2026 Vanesa Anahí Fernández - COSMART. Todos los derechos reservados...", con página de **Créditos y condiciones de uso al INICIO y al FINAL** del ebook y de la guía. Versión corta en el pie de las páginas.
+- Progreso de la app: **por cuenta** (se reutiliza el mecanismo genérico `/academy/lecciones` + `/academy/leccion` de `cosmart-training-core`, KV `PROGRESS`, agregando el curso a `CURSOS_LECCIONES`).
+- Remitente de mails: `hola@vamatienda.com.ar`.
 
 ## Pendiente
 1. Aprobación de Vaneh de textos y de la landing (preview en artifact).
