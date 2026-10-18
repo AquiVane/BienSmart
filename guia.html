@@ -163,6 +163,7 @@ footer strong,footer a{color:var(--white)}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--mid);color:var(--white);padding:12px 22px;border-radius:100px;font-size:.9rem;opacity:0;pointer-events:none;transition:.25s;z-index:40;max-width:calc(100% - 32px);text-align:center}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 @media(max-width:600px){.hero .row{flex-direction:column}.hero .row .btn,.pay .btn,form.box .btn{width:100%}}
+@media(max-width:600px){.eyebrow{display:flex;align-items:flex-start;gap:8px;background:none!important;padding:0;border-radius:0;font-size:.72rem;letter-spacing:.12em;line-height:1.5}.eyebrow::before{flex:none;margin-top:.5em}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
 .guia-hero{background:radial-gradient(ellipse 80% 60% at 75% 15%,rgba(240,98,146,.22),transparent 60%),radial-gradient(ellipse 60% 80% at 8% 85%,rgba(194,24,91,.12),transparent 55%),radial-gradient(ellipse 50% 50% at 92% 92%,rgba(206,147,216,.2),transparent 50%),var(--cream);padding-block:56px 72px}
