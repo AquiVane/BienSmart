@@ -62,7 +62,6 @@ header .btn{min-height:42px;padding:8px 20px;font-size:.9rem;box-shadow:0 4px 14
 .float.a{top:6%;left:0}.float.b{top:22%;right:0;animation-delay:-1.5s}.float.c{bottom:10%;left:2%;animation-delay:-3s}
 @keyframes morph{0%,100%{border-radius:60% 40% 55% 45%/45% 55% 45% 55%}50%{border-radius:40% 60% 45% 55%/55% 45% 55% 45%}}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-@media(min-width:860px){.hero .wrap{grid-template-columns:1.1fr .9fr;gap:56px}}
 /* why 21 */
 .why{background:linear-gradient(180deg,var(--cream),var(--rose-l))}
 .why-grid{display:grid;grid-template-columns:1fr;gap:30px;margin-top:26px;align-items:center}
@@ -71,7 +70,7 @@ header .btn{min-height:42px;padding:8px 20px;font-size:.9rem;box-shadow:0 4px 14
 .bigcircle small{font-family:var(--body);font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--magenta-d)}
 .why p+p{margin-top:14px}
 .note{font-size:.82rem;color:var(--muted)}
-@media(min-width:760px){.why-grid{grid-template-columns:240px 1fr;gap:56px}}
+.why-grid{max-width:720px}
 /* cards */
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin-top:30px}
 .card{background:var(--white);border:1px solid var(--rose-l);border-radius:24px;padding:24px;box-shadow:0 4px 18px rgba(194,24,91,.06)}
@@ -193,12 +192,6 @@ footer strong,footer a{color:var(--white)}
         <a class="btn" href="#comprar">Quiero empezar</a>
       </div>
     </div>
-    <div class="visual" aria-hidden="true">
-      <div class="blob"><i><b>21</b><span>días de hábitos</span></i></div>
-      <div class="float a">Ebook + App</div>
-      <div class="float b">Sin culpa</div>
-      <div class="float c">Rutinas opcionales</div>
-    </div>
   </div>
 </section>
 
@@ -207,7 +200,6 @@ footer strong,footer a{color:var(--white)}
     <span class="eyebrow">Por qué 21 días</span>
     <h2>Tres semanas para <em>arrancar</em> sin abrumarte</h2>
     <div class="why-grid">
-      <div class="bigcircle" aria-hidden="true"><b>21</b><small>días</small></div>
       <div>
         <p class="lead">Cambiar de golpe toda la alimentación cansa. Tres semanas alcanzan para probar, ajustar y sentir la diferencia, con un foco distinto cada semana.</p>
         <p>Los 21 días son el empujón inicial. Después seguís con lo que ya te funciona, y la app te acompaña para no perder el ritmo.</p>
