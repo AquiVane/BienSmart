@@ -182,6 +182,18 @@ footer strong,footer a{color:var(--white)}
 @media(max-width:600px){.hero .row{flex-direction:column}.hero .row .btn,.pay .btn,form.box .btn{width:100%}}
 @media(max-width:600px){.eyebrow{display:flex;align-items:flex-start;gap:8px;background:none!important;padding:0;border-radius:0;font-size:.72rem;letter-spacing:.12em;line-height:1.5}.eyebrow::before{flex:none;margin-top:.5em}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* fotos: collage superpuesto de polaroids */
+.pol{position:absolute;margin:0;background:#fff;padding:8px 8px 22px;border-radius:8px;box-shadow:0 10px 28px rgba(136,14,79,.28);transform:rotate(var(--r,0deg))}
+.pol img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;border-radius:4px}
+.hero-collage{position:relative;height:330px;max-width:420px;width:100%;margin:6px auto 0}
+.hero-collage .pol{width:170px}
+@media(min-width:900px){.hero .wrap{grid-template-columns:1.05fr .95fr}.hero-collage{height:500px;max-width:480px;margin:0 0 0 auto}.hero-collage .pol{width:215px}}
+.week-pics{position:relative;height:104px;margin:-4px 0 12px}
+.week-pics .pol{width:84px;padding:4px 4px 11px;border-radius:5px;box-shadow:0 5px 14px rgba(136,14,79,.25)}
+.day-pics{position:relative;height:116px;margin:0 0 14px}
+.day-pics .pol{width:92px;padding:4px 4px 12px;border-radius:5px;box-shadow:0 5px 14px rgba(136,14,79,.25)}
+@media(min-width:700px){.day-pics{height:150px}.day-pics .pol{width:122px}}
 </style>
 </head>
 <body>
@@ -210,6 +222,7 @@ footer strong,footer a{color:var(--white)}
         <a class="btn" href="#comprar">Quiero empezar</a>
       </div>
     </div>
+    <div class="hero-collage" aria-hidden="true"><figure class="pol" style="--r:-7deg;left:2%;top:10px"><img src="/assets/fotos/d18-1.jpg" alt="" width="460" height="460" fetchpriority="high" decoding="async"></figure><figure class="pol" style="--r:6deg;left:52%;top:0px"><img src="/assets/fotos/d21-1.jpg" alt="" width="460" height="460" fetchpriority="high" decoding="async"></figure><figure class="pol" style="--r:-4deg;left:22%;top:150px"><img src="/assets/fotos/d09-1.jpg" alt="" width="460" height="460" fetchpriority="high" decoding="async"></figure><figure class="pol" style="--r:7deg;left:60%;top:210px"><img src="/assets/fotos/d20-4.jpg" alt="" width="460" height="460" fetchpriority="high" decoding="async"></figure><figure class="pol" style="--r:-8deg;left:0%;top:230px"><img src="/assets/fotos/d12-1.jpg" alt="" width="460" height="460" fetchpriority="high" decoding="async"></figure></div>
   </div>
 </section>
 
@@ -244,9 +257,9 @@ footer strong,footer a{color:var(--white)}
     <span class="eyebrow">El recorrido</span>
     <h2>Tres semanas, tres momentos</h2>
     <div class="weeks">
-      <div class="week"><span class="eyebrow">Semana 1 · Arrancar</span><h3>Soltar harinas y azúcar</h3><p>Empezás a dejar las harinas refinadas y el azúcar agregada, con menús simples para el día a día.</p></div>
-      <div class="week"><span class="eyebrow">Semana 2 · Afianzar</span><h3>Los hábitos se acomodan</h3><p>Más saciedad, comidas ricas y menos picoteo. Ya conocés tu ritmo.</p></div>
-      <div class="week"><span class="eyebrow">Semana 3 · Brillar</span><h3>Tu propio ritmo</h3><p>Cerramos con celebración y con ganas de seguir cuidándote.</p></div>
+      <div class="week"><div class="week-pics" aria-hidden="true"><figure class="pol" style="--r:-6deg;left:0%;top:8px"><img src="/assets/fotos/d01-1.jpg" alt="" width="460" height="460" loading="lazy" decoding="async"></figure><figure class="pol" style="--r:4deg;left:28%;top:0px"><img src="/assets/fotos/d02-2.jpg" alt="" width="460" height="460" loading="lazy" decoding="async"></figure><figure class="pol" style="--r:-3deg;left:56%;top:14px"><img src="/assets/fotos/d03-3.jpg" alt="" width="460" height="460" loading="lazy" decoding="async"></figure></div><span class="eyebrow">Semana 1 · Arrancar</span><h3>Soltar harinas y azúcar</h3><p>Empezás a dejar las harinas refinadas y el azúcar agregada, con menús simples para el día a día.</p></div>
+      <div class="week"><div class="week-pics" aria-hidden="true"><figure class="pol" style="--r:-6deg;left:0%;top:8px"><img src="/assets/fotos/d08-1.jpg" alt="" width="460" height="460" loading="lazy" decoding="async"></figure><figure class="pol" style="--r:4deg;left:28%;top:0px"><img src="/assets/fotos/d09-3.jpg" alt="" width="460" height="460" loading="lazy" decoding="async"></figure><figure class="pol" style="--r:-3deg;left:56%;top:14px"><img src="/assets/fotos/d10-4.jpg" alt="" width="460" height="460" loading="lazy" decoding="async"></figure></div><span class="eyebrow">Semana 2 · Afianzar</span><h3>Los hábitos se acomodan</h3><p>Más saciedad, comidas ricas y menos picoteo. Ya conocés tu ritmo.</p></div>
+      <div class="week"><div class="week-pics" aria-hidden="true"><figure class="pol" style="--r:-6deg;left:0%;top:8px"><img src="/assets/fotos/d15-1.jpg" alt="" width="460" height="460" loading="lazy" decoding="async"></figure><figure class="pol" style="--r:4deg;left:28%;top:0px"><img src="/assets/fotos/d16-3.jpg" alt="" width="460" height="460" loading="lazy" decoding="async"></figure><figure class="pol" style="--r:-3deg;left:56%;top:14px"><img src="/assets/fotos/d17-4.jpg" alt="" width="460" height="460" loading="lazy" decoding="async"></figure></div><span class="eyebrow">Semana 3 · Brillar</span><h3>Tu propio ritmo</h3><p>Cerramos con celebración y con ganas de seguir cuidándote.</p></div>
     </div>
   </div>
 </section>
@@ -257,7 +270,7 @@ footer strong,footer a{color:var(--white)}
     <h2>Así es un día del reto</h2>
     <p class="lead" style="margin-top:12px">Este es el Día 1 completo, tal cual está en el ebook.</p>
     <div class="day">
-      <div class="day-head"><span class="eyebrow">Día 1 · Lunes</span><h3>¡Arrancamos! Energía desde el primer día</h3><p style="margin-top:8px;font-size:.9rem;color:var(--magenta-d)">Proteína del día: 90–105 g · Sin harinas · Sin azúcar</p></div>
+      <div class="day-head"><div class="day-pics" aria-hidden="true"><figure class="pol" style="--r:-6deg;left:0%;top:6px"><img src="/assets/fotos/d01-1.jpg" alt="" width="460" height="460" loading="lazy" decoding="async"></figure><figure class="pol" style="--r:4deg;left:19%;top:0px"><img src="/assets/fotos/d01-2.jpg" alt="" width="460" height="460" loading="lazy" decoding="async"></figure><figure class="pol" style="--r:-3deg;left:38%;top:10px"><img src="/assets/fotos/d01-3.jpg" alt="" width="460" height="460" loading="lazy" decoding="async"></figure><figure class="pol" style="--r:5deg;left:57%;top:0px"><img src="/assets/fotos/d01-4.jpg" alt="" width="460" height="460" loading="lazy" decoding="async"></figure><figure class="pol" style="--r:-5deg;left:76%;top:8px"><img src="/assets/fotos/d01-5.jpg" alt="" width="460" height="460" loading="lazy" decoding="async"></figure></div><span class="eyebrow">Día 1 · Lunes</span><h3>¡Arrancamos! Energía desde el primer día</h3><p style="margin-top:8px;font-size:.9rem;color:var(--magenta-d)">Proteína del día: 90–105 g · Sin harinas · Sin azúcar</p></div>
       <div class="tabs" role="tablist" aria-label="Contenido del día">
         <button class="tab" role="tab" id="t-com" aria-selected="true" aria-controls="p-com" data-p="p-com">Comida</button>
         <button class="tab" role="tab" id="t-tip" aria-selected="false" aria-controls="p-tip" data-p="p-tip">Tip</button>

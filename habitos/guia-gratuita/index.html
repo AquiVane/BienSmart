@@ -181,6 +181,11 @@ footer strong,footer a{color:var(--white)}
 .thanks h3{font-size:1.5rem}
 @media(min-width:860px){.guia-hero .wrap{grid-template-columns:1.1fr .9fr;gap:56px}}
 @media(max-width:600px){form.box .btn,.thanks .btn{width:100%}}
+
+.pol{position:absolute;margin:0;background:#fff;padding:7px 7px 19px;border-radius:7px;box-shadow:0 8px 22px rgba(136,14,79,.28);transform:rotate(var(--r,0deg));width:108px}
+.pol img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;border-radius:4px}
+.guia-pics{position:relative;height:190px;max-width:420px;margin:26px 0 0}
+@media(min-width:860px){.pol{width:150px}.guia-pics{height:220px;margin-top:34px}}
 </style>
 </head>
 <body>
@@ -202,6 +207,7 @@ footer strong,footer a{color:var(--white)}
         <li>Sin harinas refinadas ni azúcar agregada</li>
         <li>Pensadas para las mañanas con poco tiempo</li>
       </ul>
+      <div class="guia-pics" aria-hidden="true"><figure class="pol" style="--r:-6deg;left:0%;top:8px"><img src="/assets/fotos/d17-5.jpg" alt="" width="460" height="460" decoding="async"></figure><figure class="pol" style="--r:4deg;left:24%;top:0px"><img src="/assets/fotos/d01-2.jpg" alt="" width="460" height="460" decoding="async"></figure><figure class="pol" style="--r:-3deg;left:48%;top:16px"><img src="/assets/fotos/d02-2.jpg" alt="" width="460" height="460" decoding="async"></figure><figure class="pol" style="--r:6deg;left:64%;top:2px"><img src="/assets/fotos/d09-1.jpg" alt="" width="460" height="460" decoding="async"></figure></div>
     </div>
     <div>
       <form class="box" id="leadForm" novalidate>
