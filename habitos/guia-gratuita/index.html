@@ -187,6 +187,7 @@ footer strong,footer a{color:var(--white)}
 .guia-pics{position:relative;height:190px;max-width:420px;margin:26px 0 0}
 @media(min-width:860px){.pol{width:150px}.guia-pics{height:220px;margin-top:34px}}
 </style>
+<link rel="stylesheet" href="/assets/resenas.css">
 </head>
 <body>
 <header>
@@ -228,6 +229,12 @@ footer strong,footer a{color:var(--white)}
     </div>
   </div>
 </section>
+
+<section class="res-sec" id="resenas" hidden>
+  <div class="head"><span class="eyebrow">Lo que cuentan</span><h2>Personas reales que ya hicieron <em>el reto</em></h2></div>
+  <div class="mq" data-mq role="region" aria-label="Opiniones de quienes hicieron el reto"></div>
+  <div class="res-cta"><a class="btn" href="/habitos/">Quiero empezar el reto de 21 días</a></div>
+</section>
 </main>
 <footer>
   <div class="wrap">
@@ -236,6 +243,8 @@ footer strong,footer a{color:var(--white)}
   </div>
 </footer>
 <script src="/assets/biensmart.js"></script>
+<script src="/assets/resenas.js"></script>
+<script>BSRes.montar("#resenas");</script>
 <script>
 (function(){
   var $=function(s){return document.querySelector(s)};

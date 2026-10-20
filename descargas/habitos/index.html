@@ -225,12 +225,44 @@ input[type=email],input[type=password]{font:1rem var(--body);padding:12px 16px;b
     html += '<div class="card soft"><h2>Tu ebook</h2>' + (eb && eb.disponible
       ? '<p class="muted">El reto completo en PDF, con listas de compras y planilla de seguimiento.</p><button class="btn" id="bajar" type="button">Descargar el ebook</button>'
       : '<p class="muted">Tu ebook en PDF va a estar disponible acá muy pronto.</p>') + '</div>';
+    html += '<div class="card" id="resCard"></div>';
     html += '<div class="card" data-instalar></div>';
     html += '<p class="tiny">Contenido informativo. No reemplaza la consulta con un profesional de la salud. © 2026 Vanesa Anahí Fernández - COSMART. Todos los derechos reservados. Queda prohibida la reproducción, distribución, comercialización o puesta a disposición de este material, total o parcial, sin autorización previa y por escrito de su titular, salvo los usos permitidos por la legislación aplicable.</p>';
     $('#app').innerHTML = html;
     document.querySelectorAll('.day').forEach(function (b) { b.addEventListener('click', function () { var n = parseInt(b.dataset.d, 10); if (cerrado(n)) toast('Completá el día ' + (n - 1) + ' para abrir este.'); else location.hash = 'd' + n; }); });
     var bj = $('#bajar'); if (bj) bj.addEventListener('click', descargar);
     BSInstall.render();
+    cargarResena();
+  }
+
+  // ── Reseña: la persona cuenta cómo le fue; queda pendiente hasta que Vaneh la aprueba ──
+  var ESTADO_RES = { pendiente: '¡Gracias por tu opinión!', aprobada: '¡Gracias! Tu opinión ya está publicada en la página del reto. Podés editarla cuando quieras.', rechazada: 'Tu opinión no se muestra en la página. Si querés, escribila de nuevo.' };
+  function cargarResena() {
+    var box = $('#resCard'); if (!box) return;
+    BS.api('/api/bs/resena', { auth: true }).then(function (r) {
+      var m = (r.ok && r.data && r.data.resena) || null, est = m ? m.estrellas : 5;
+      box.innerHTML = '<h2>Contanos cómo te fue</h2><p class="muted">Tu opinión ayuda a otras personas a animarse y aparece en la página del reto con tu nombre y la inicial de tu apellido.</p>' +
+        '<div id="resStars" role="radiogroup" aria-label="Tu puntaje" style="display:flex;gap:6px;margin:10px 0">' +
+        [1, 2, 3, 4, 5].map(function (n) { return '<button type="button" role="radio" aria-checked="' + (n <= est) + '" aria-label="' + n + ' de 5" data-n="' + n + '" style="font-size:1.7rem;line-height:1;background:none;border:0;cursor:pointer;color:' + (n <= est ? '#C2185B' : '#E7C3D3') + ';padding:2px">★</button>'; }).join('') + '</div>' +
+        '<textarea id="resTxt" rows="4" maxlength="500" placeholder="Escribí acá tu experiencia con el reto…" style="width:100%;font:inherit;padding:12px 14px;border:1.5px solid #F8BBD9;border-radius:14px;background:#fff;color:#3D1520;resize:vertical"></textarea>' +
+        '<button class="btn" id="resEnviar" type="button" style="margin-top:10px">' + (m ? 'Actualizar mi opinión' : 'Enviar mi opinión') + '</button>' +
+        '<p class="muted" id="resMsg" role="status" style="margin-top:8px">' + (m ? ESTADO_RES[m.estado] || '' : '') + '</p>';
+      if (m) $('#resTxt').value = m.texto;
+      var cur = est;
+      box.querySelectorAll('#resStars button').forEach(function (b) { b.addEventListener('click', function () {
+        cur = parseInt(b.dataset.n, 10);
+        box.querySelectorAll('#resStars button').forEach(function (x) { var on = parseInt(x.dataset.n, 10) <= cur; x.style.color = on ? '#C2185B' : '#E7C3D3'; x.setAttribute('aria-checked', on); });
+      }); });
+      $('#resEnviar').addEventListener('click', function () {
+        var bt = $('#resEnviar'), txt = $('#resTxt').value.trim();
+        if (txt.length < 15) { $('#resMsg').textContent = 'Contanos un poquito más (mínimo 15 letras).'; return; }
+        bt.disabled = true; bt.textContent = 'Enviando…';
+        BS.api('/api/bs/resena', { auth: true, method: 'POST', body: { texto: txt, estrellas: cur } }).then(function (r2) {
+          bt.disabled = false; bt.textContent = 'Actualizar mi opinión';
+          $('#resMsg').textContent = r2.ok ? ESTADO_RES.aprobada : ((r2.data && r2.data.error) || 'No pudimos enviarla. Intentá de nuevo.');
+        });
+      });
+    });
   }
 
   function descargar() {

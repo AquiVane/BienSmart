@@ -1,0 +1,18 @@
+/* Carrusel continuo de testimonios (de derecha a izquierda, en loop). Lo usan /habitos y la guía gratuita. */
+.res-sec{padding:64px 0;background:linear-gradient(180deg,#FFF0F5,#FFF9FA)}
+.res-sec[hidden]{display:none!important}
+.res-sec .head{max-width:640px;margin:0 auto 28px;padding:0 16px;text-align:center}
+.res-sec .head h2{margin:10px 0 0}
+.mq{position:relative;overflow:hidden;padding:12px 0 22px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+.mq-track{display:flex;width:max-content;animation:mq-run var(--mq-dur,60s) linear infinite;will-change:transform}
+.mq-group{display:flex;gap:18px;padding-right:18px}
+@keyframes mq-run{to{transform:translateX(-50%)}}
+.res-card{position:relative;flex:none;width:min(78vw,330px);background:#fff;border:1px solid #F8BBD9;border-radius:22px;padding:26px 22px 20px;box-shadow:0 10px 26px -14px rgba(136,14,79,.35);display:flex;flex-direction:column;gap:12px}
+.res-card:nth-child(3n+2){background:#FCE4EC}.res-card:nth-child(3n){background:#F6EAF8}
+.res-card::before{content:"\201C";position:absolute;top:2px;left:16px;font-family:'Playfair Display',Georgia,serif;font-size:4.4rem;line-height:1;color:#F06292;opacity:.55}
+.res-stars{color:#C2185B;letter-spacing:2px;font-size:1rem;padding-left:34px;min-height:1.4em}
+.res-txt{margin:0;color:#3D1520;font-size:.98rem;line-height:1.6;white-space:normal;overflow-wrap:anywhere}
+.res-who{margin-top:auto;font-weight:700;color:#880E4F;font-size:.92rem}
+.res-who small{display:block;font-weight:500;color:#8A5A6A;font-size:.8rem}
+.res-cta{text-align:center;margin-top:8px;padding:0 16px}
+@media (prefers-reduced-motion:reduce){.mq{overflow-x:auto;-webkit-mask-image:none;mask-image:none}.mq-track{animation:none}.mq-group[aria-hidden="true"]{display:none}}

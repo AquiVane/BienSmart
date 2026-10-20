@@ -195,6 +195,7 @@ footer strong,footer a{color:var(--white)}
 .day-pics .pol{width:92px;padding:4px 4px 12px;border-radius:5px;box-shadow:0 5px 14px rgba(136,14,79,.25)}
 @media(min-width:700px){.day-pics{height:150px}.day-pics .pol{width:122px}}
 </style>
+<link rel="stylesheet" href="/assets/resenas.css">
 </head>
 <body>
 
@@ -251,6 +252,12 @@ footer strong,footer a{color:var(--white)}
     </div>
   </div>
 </section>
+
+<section class="res-sec" id="resenas" hidden>
+  <div class="head"><span class="eyebrow">Lo que cuentan</span><h2>Personas reales que ya hicieron <em>el reto</em></h2></div>
+  <div class="mq" data-mq role="region" aria-label="Opiniones de quienes hicieron el reto"></div>
+</section>
+
 
 <section class="weeks-sec" id="semanas">
   <div class="wrap">
@@ -434,6 +441,8 @@ footer strong,footer a{color:var(--white)}
 <div class="toast" id="toast" role="status"></div>
 
 <script src="/assets/biensmart.js"></script>
+<script src="/assets/resenas.js"></script>
+<script>if(!window.BS_PREVIEW)BSRes.montar("#resenas");</script>
 <script src="/assets/instalar.js"></script>
 <script>
 (function(){
