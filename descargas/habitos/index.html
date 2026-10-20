@@ -127,7 +127,7 @@ input[type=email],input[type=password]{font:1rem var(--body);padding:12px 16px;b
   // ── Sesión ──
   function salir(msg) {
     var t = BS.token();
-    if (t && !DEMO) BS.api('/auth/logout', { method: 'POST', auth: true });
+    if (t && !DEMO) BS.api('/api/bs/logout', { method: 'POST', auth: true });
     BS.store('bs_token', null);
     S = { nombre: '', lec: [], hechas: {}, archivos: [], cta: null };
     $('#salir').hidden = true;
@@ -145,16 +145,15 @@ input[type=email],input[type=password]{font:1rem var(--body);padding:12px 16px;b
       return Promise.resolve(true);
     }
     return Promise.all([
-      BS.api('/academy/lecciones?curso=' + CURSO, { auth: true }),
-      BS.api('/academy/archivos', { auth: true })
+      BS.api('/api/bs/dias', { auth: true }),
+      BS.api('/api/bs/archivos', { auth: true })
     ]).then(function (r) {
       var l = r[0];
-      if (l.status === 401) { salir('Tu sesión venció. Entrá de nuevo.'); return false; }
-      if (l.status === 403) { salir('Esta cuenta todavía no tiene el reto. Si compraste, usá el link del mail para crear tu usuario.'); return false; }
+      if (l.status === 401 || l.status === 403) { salir('Tu sesión venció. Entrá de nuevo.'); return false; }
       if (!l.ok) { $('#app').innerHTML = '<div class="card"><p>No pudimos cargar tu reto. Revisá tu conexión.</p><button class="btn" id="reint" type="button">Reintentar</button></div>'; $('#reint').onclick = function () { start(); }; return false; }
       S.lec = l.data.lecciones || [];
       setHechas(l.data.hechas);
-      S.archivos = (r[1].ok && r[1].data.items || []).filter(function (a) { return a.curso === CURSO; });
+      S.archivos = (r[1].ok && r[1].data.items) || [];
       $('#salir').hidden = false;
       return true;
     });
@@ -162,7 +161,7 @@ input[type=email],input[type=password]{font:1rem var(--body);padding:12px 16px;b
 
   function recargar() {
     if (DEMO) return Promise.resolve();
-    return BS.api('/academy/lecciones?curso=' + CURSO, { auth: true }).then(function (r) {
+    return BS.api('/api/bs/dias', { auth: true }).then(function (r) {
       if (r.ok) { S.lec = r.data.lecciones || S.lec; setHechas(r.data.hechas); }
     });
   }
@@ -188,9 +187,8 @@ input[type=email],input[type=password]{font:1rem var(--body);padding:12px 16px;b
       var em = $('#le').value.trim().toLowerCase(), pw = $('#lp').value, er = $('#lerr');
       if (!BS.emailOk(em) || !pw) { er.textContent = 'Completá tu email y tu contraseña.'; return; }
       er.textContent = ''; $('#lgo').disabled = true; $('#lgo').textContent = 'Entrando…';
-      BS.api('/auth/login', { method: 'POST', body: { email: em, password: pw } }).then(function (r) {
+      BS.api('/api/bs/login', { method: 'POST', body: { email: em, password: pw } }).then(function (r) {
         if (r.ok && r.data.token) {
-          if ((r.data.courses || []).indexOf(CURSO) === -1) { er.textContent = 'Esta cuenta no tiene el reto de 21 días.'; $('#lgo').disabled = false; $('#lgo').textContent = 'Entrar'; return; }
           BS.store('bs_token', r.data.token); S.nombre = r.data.nombre || ''; start();
         } else {
           er.textContent = (r.data && r.data.error) || 'No pudimos entrar. Revisá tus datos.';
@@ -202,7 +200,7 @@ input[type=email],input[type=password]{font:1rem var(--body);padding:12px 16px;b
       var em = $('#le').value.trim().toLowerCase(), er = $('#lerr');
       if (!BS.emailOk(em)) { er.textContent = 'Escribí tu email arriba y volvé a tocar "Olvidé mi contraseña".'; return; }
       er.textContent = '';
-      BS.api('/auth/forgot', { method: 'POST', body: { email: em } }).then(function () { toast('Si el email tiene cuenta, te llega un link en unos minutos.'); });
+      BS.api('/api/bs/forgot', { method: 'POST', body: { email: em } }).then(function () { toast('Si el email tiene cuenta, te llega un link en unos minutos.'); });
     });
   }
 
@@ -237,7 +235,7 @@ input[type=email],input[type=password]{font:1rem var(--body);padding:12px 16px;b
 
   function descargar() {
     var b = $('#bajar'); b.disabled = true; b.textContent = 'Descargando…';
-    fetch(BS.cfg.CORE + '/academy/archivo/' + CURSO + '/ebook', { headers: { Authorization: 'Bearer ' + BS.token() } })
+    fetch(BS.cfg.CORE + '/api/bs/ebook', { headers: { Authorization: 'Bearer ' + BS.token() } })
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.blob(); })
       .then(function (bl) {
         var u = URL.createObjectURL(bl), a = document.createElement('a');
@@ -318,7 +316,7 @@ input[type=email],input[type=password]{font:1rem var(--body);padding:12px 16px;b
       toast(n < S.lec.length ? '¡Día ' + n + ' completo! Se abrió el día ' + (n + 1) + '.' : '¡Completaste los 21 días!');
     }
     if (DEMO) { aviso(); return; }
-    BS.api('/academy/leccion', { method: 'POST', auth: true, body: { curso: CURSO, id: id, hecha: valor } }).then(function (r) {
+    BS.api('/api/bs/dia', { method: 'POST', auth: true, body: { id: id, hecha: valor } }).then(function (r) {
       if (r.status === 401) { salir('Tu sesión venció. Entrá de nuevo.'); return; }
       if (!r.ok) { if (antes) S.hechas[id] = 1; else delete S.hechas[id]; pintarDia(n); toast(r.status === 403 && r.data && r.data.error ? r.data.error : 'No pudimos guardar. Revisá tu conexión.'); return; }
       if (r.data && r.data.hechas) setHechas(r.data.hechas);

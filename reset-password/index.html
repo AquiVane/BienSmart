@@ -48,7 +48,7 @@
     if(p.length<8){er.textContent='La contraseña tiene que tener al menos 8 caracteres.';return}
     if(p!==p2){er.textContent='Las contraseñas no coinciden.';return}
     er.textContent=''; $('go').disabled=true; $('go').textContent='Guardando…';
-    BS.api('/auth/reset',{method:'POST',body:{token:token,newPassword:p}}).then(function(r){
+    BS.api('/api/bs/reset',{method:'POST',body:{token:token,newPassword:p}}).then(function(r){
       if(r.ok){ $('form').hidden=true; $('listo').hidden=false; }
       else{ er.textContent=(r.data&&r.data.error)||'El link venció. Pedí uno nuevo desde la pantalla de ingreso.'; $('go').disabled=false; $('go').textContent='Guardar contraseña'; }
     });

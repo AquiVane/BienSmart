@@ -214,9 +214,10 @@ footer strong,footer a{color:var(--white)}
       </form>
       <div class="box thanks" id="thanks" hidden>
         <h3>¡Listo! Revisá tu mail</h3>
-        <p>Te enviamos la guía. Si no aparece en unos minutos, mirá la carpeta de spam.</p>
+        <p>Te enviamos la guía por mail. Si no aparece en unos minutos, mirá la carpeta de spam. También podés bajarla ahora.</p>
+        <a class="btn" id="bajarGuia" href="/habitos/guia-gratuita/Guia-5-desayunos-sin-harina-ni-azucar.pdf" download>Descargar la guía ahora</a>
         <p>Mientras tanto, conocé el reto completo: 21 días de menús, tips y rutinas, con ebook y app.</p>
-        <a class="btn" href="/habitos/">Conocer el reto de 21 días</a>
+        <a class="btn ghost" href="/habitos/">Conocer el reto de 21 días</a>
       </div>
     </div>
   </div>
@@ -228,6 +229,7 @@ footer strong,footer a{color:var(--white)}
     <p><strong>Derechos de autor.</strong> © 2026 Vanesa Anahí Fernández - COSMART. Todos los derechos reservados. Queda prohibida la reproducción, distribución, comercialización o puesta a disposición de este material, total o parcial, sin autorización previa y por escrito de su titular, salvo los usos permitidos por la legislación aplicable.</p>
   </div>
 </footer>
+<script src="/assets/biensmart.js"></script>
 <script>
 (function(){
   var $=function(s){return document.querySelector(s)};
@@ -238,8 +240,18 @@ footer strong,footer a{color:var(--white)}
     if(!n){er.textContent='Escribí tu nombre.';return}
     if(!ok.test(m)){er.textContent='Revisá tu email, parece incompleto.';return}
     if(!c){er.textContent='Tildá la casilla para recibir la guía.';return}
-    er.textContent='';$('#leadForm').hidden=true;$('#thanks').hidden=false;
-    $('#thanks').scrollIntoView({behavior:'smooth',block:'center'});
+    er.textContent='';
+    var go=$('#leadForm button[type=submit]'); go.disabled=true; go.textContent='Enviando…';
+    BS.api('/api/bs/guia',{method:'POST',body:{nombre:n,email:m,consentimiento:c}}).then(function(r){
+      if(r.ok){
+        if(r.data&&r.data.pdf) $('#bajarGuia').href=r.data.pdf;
+        $('#leadForm').hidden=true;$('#thanks').hidden=false;
+        $('#thanks').scrollIntoView({behavior:'smooth',block:'center'});
+      }else{
+        er.textContent=(r.data&&r.data.error)||'No pudimos enviar la guía ahora. Intentá de nuevo en un rato.';
+        go.disabled=false; go.textContent='Enviarme la guía';
+      }
+    });
   });
 })();
 </script>

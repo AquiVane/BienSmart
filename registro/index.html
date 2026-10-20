@@ -55,8 +55,8 @@
     if(p.length<8){er.textContent='La contraseña tiene que tener al menos 8 caracteres.';return}
     if(p!==p2){er.textContent='Las contraseñas no coinciden.';return}
     er.textContent=''; $('go').disabled=true; $('go').textContent='Creando…';
-    BS.api('/auth/register',{method:'POST',body:{reg_token:token,nombre:n,apellido:a,email:mail,password:p}}).then(function(r){
-      if(r.ok){ $('form').hidden=true; $('listo').hidden=false; $('listoMsg').textContent=(r.data&&r.data.message)||'¡Cuenta creada! Ya podés entrar.'; }
+    BS.api('/api/bs/registro',{method:'POST',body:{reg_token:token,nombre:n,apellido:a,email:mail,password:p}}).then(function(r){
+      if(r.ok){ if(r.data&&r.data.token) BS.store('bs_token',r.data.token); $('form').hidden=true; $('listo').hidden=false; $('listoMsg').textContent=(r.data&&r.data.message)||'¡Cuenta creada! Ya podés entrar.'; }
       else{ er.textContent=(r.data&&r.data.error)||'No pudimos crear tu usuario. Revisá el link del mail e intentá de nuevo.'; $('go').disabled=false; $('go').textContent='Crear mi usuario'; }
     });
   });
