@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+<title>Nueva contraseña · Hábitos BienSmart</title>
+</head>
+<body>
+<div class="top"><a class="brand" href="/habitos/">Hábitos <span>BienSmart</span></a></div>
+<main class="card">
+  <div id="form">
+    <span class="eyebrow">Tu cuenta</span>
+    <h1 style="margin-top:12px">Elegí tu nueva <em>contraseña</em></h1>
+    <form id="f" novalidate style="display:grid;gap:14px;margin-top:16px">
+      <label for="pass">Nueva contraseña (mínimo 8 caracteres)<input type="password" id="pass" autocomplete="new-password"></label>
+      <label for="pass2">Repetí la contraseña<input type="password" id="pass2" autocomplete="new-password"></label>
+      <div class="err" id="err" role="alert"></div>
+      <button class="btn" type="submit" id="go">Guardar contraseña</button>
+    </form>
+  </div>
+  <div id="sinToken" hidden>
+    <h1>Este link <em>no es válido</em></h1>
+    <p class="muted" style="margin-top:8px">Pedí un link nuevo desde la pantalla de ingreso con "Olvidé mi contraseña".</p>
+    <a class="btn" href="/descargas/" style="margin-top:16px">Ir a ingresar</a>
+  </div>
+  <div id="listo" hidden>
+    <h1>Contraseña <em>actualizada</em></h1>
+    <p class="msg" style="margin-top:12px">Ya podés iniciar sesión con tu nueva contraseña.</p>
+    <a class="btn" href="/descargas/" style="margin-top:16px">Entrar a mi reto</a>
+  </div>
+</main>
+<script src="/assets/biensmart.js"></script>
+<script>
+(function(){
+  var token=new URLSearchParams(location.search).get('token')||'';
+  var $=function(id){return document.getElementById(id)};
+  if(!token){ $('form').hidden=true; $('sinToken').hidden=false; return; }
+  $('f').addEventListener('submit',function(e){
+    e.preventDefault();
+    var p=$('pass').value, p2=$('pass2').value, er=$('err');
+    if(p.length<8){er.textContent='La contraseña tiene que tener al menos 8 caracteres.';return}
+    if(p!==p2){er.textContent='Las contraseñas no coinciden.';return}
+    er.textContent=''; $('go').disabled=true; $('go').textContent='Guardando…';
+    BS.api('/auth/reset',{method:'POST',body:{token:token,newPassword:p}}).then(function(r){
+      if(r.ok){ $('form').hidden=true; $('listo').hidden=false; }
+      else{ er.textContent=(r.data&&r.data.error)||'El link venció. Pedí uno nuevo desde la pantalla de ingreso.'; $('go').disabled=false; $('go').textContent='Guardar contraseña'; }
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -27,6 +27,16 @@ Los 21 días (comidas, tip, rutina) ya están escritos por Vaneh en su sitio htt
 - Progreso de la app: **por cuenta** (se reutiliza el mecanismo genérico `/academy/lecciones` + `/academy/leccion` de `cosmart-training-core`, KV `PROGRESS`, agregando el curso a `CURSOS_LECCIONES`).
 - Remitente de mails: `hola@vamatienda.com.ar`.
 
+## 20/10 — Cobro real, cuenta y app (EN RAMA `claude/checkout-app`, SIN MEZCLAR A MAIN)
+**No mezclar a `main` hasta que estén desplegados los dos workers del backend** (rama `claude/biensmart-habitos` en `AquiVane/cosmart-workers`: `cosmart-training-core` y `mp-productos-ganadores`). Con el backend viejo, el worker de pago cobraría el monto que mande el navegador y otorgaría el curso equivocado.
+- `assets/biensmart.js` (config pública + helpers) y `assets/site.css` (estilos de las páginas de cuenta).
+- `habitos/index.html`: checkout embebido. Mercado Pago (Payment Brick, `/preference` + `/pay` de `mp-productos-ganadores`) y PayPal (botones del SDK + `POST /payment/paypal` del core). Nunca se saca a la persona de la página. El precio mostrado es solo visual: lo fija el servidor.
+- `habitos/gracias/`, `registro/` (crea el usuario con el token del mail), `reset-password/`.
+- `descargas/`: la app. Ingreso con el mismo `/auth/login` del core; lee `/academy/lecciones?curso=habitos-biensmart` y guarda con `/academy/leccion` (ids `d1..d21`, `d<n>-desayuno|colacion|almuerzo|merienda|cena|rutina`). Descarga el ebook con `/academy/archivo/habitos-biensmart/ebook`. PWA: `manifest.webmanifest`, `sw.js` (solo cachea la cáscara), íconos.
+- **Regla**: todo elemento que use el atributo `hidden` y tenga `display` propio necesita `[hidden]{display:none!important}` (ya está en todas las páginas; el 20/10 se arregló un bug así en `guia-gratuita`).
+- Probado con Playwright (celular y escritorio) contra un servidor simulado: ingreso, progreso por cuenta, registro, reset, gracias y checkout (preferencia con el producto y el email). **No probado con pagos reales.**
+- Pendiente: deploy de los workers (aviso a Vaneh), probar un pago real chico en MP y PayPal, mezclar la rama a `main`, ebook en PDF (subirlo a R2) y conectar el formulario de la guía gratuita.
+
 ## Pendiente
 1. Aprobación de Vaneh de textos y de la landing (preview en artifact).
 2. Backend de cobro: registrar el producto en `cosmart-training-core` (`COURSES`, `PAYPAL_MIN_USD`) y `mp-productos-ganadores` (`PRODUCTOS`) en `AquiVane/cosmart-workers`, y permitir el origen de la landing. Deploy manual: avisar a Vaneh antes.

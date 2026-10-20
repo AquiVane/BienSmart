@@ -4,22 +4,319 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
-<title>Descargas · Hábitos BienSmart</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&family=Playfair+Display:wght@900&display=swap">
+<meta name="theme-color" content="#FFF9FA">
+<title>Mi reto · Hábitos BienSmart</title>
+<link rel="manifest" href="/descargas/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/descargas/apple-touch-icon.png">
+<link rel="icon" href="/descargas/icon-192.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&display=swap">
 <style>
-body{margin:0;min-height:100vh;display:grid;place-items:center;background:radial-gradient(ellipse 80% 60% at 75% 15%,rgba(240,98,146,.22),transparent 60%),#FFF9FA;color:#3D1520;font-family:'DM Sans',system-ui,sans-serif;padding:24px}
-main{max-width:480px;text-align:center}
-h1{font-family:'Playfair Display',Georgia,serif;font-weight:900;color:#1A0A10;font-size:2.2rem;margin:0 0 12px}
-p{color:#8A5A6A;margin:0 0 20px}
-a{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:14px 32px;border-radius:100px;background:linear-gradient(135deg,#C2185B,#FF6B8A);color:#fff;font-weight:600;text-decoration:none}
-@media(max-width:600px){a{width:100%}}
+/* Concepto: app de seguimiento mobile primero. Una columna, tarjetas pastel, todo tildable con el pulgar. */
+:root{
+  --magenta:#C2185B;--magenta-d:#880E4F;--rose:#F06292;--rose-l:#FCE4EC;--rose-m:#F8BBD9;--blush:#FFF0F5;--cream:#FFF9FA;--coral:#FF6B8A;--lilac-l:#F6EAF8;--peach:#FFE3D6;
+  --dark:#1A0A10;--ink:#3D1520;--muted:#8A5A6A;--white:#FFFFFF;--mid:#4A1530;--line:#F3D3E0;
+  --display:'DM Serif Display',Georgia,serif;--accent:'Playfair Display',Georgia,serif;--body:'DM Sans',system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse 80% 40% at 85% 0,rgba(240,98,146,.18),transparent 60%),radial-gradient(ellipse 60% 50% at 0 100%,rgba(206,147,216,.2),transparent 55%),var(--cream);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(255,249,250,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--cream)}
+.bar .in{max-width:640px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px))}
+.brand{font-family:var(--accent);font-weight:900;color:var(--dark);font-size:1.1rem;text-decoration:none}
+.brand span{color:var(--magenta);font-style:italic;font-weight:400}
+.link{background:none;border:0;color:var(--magenta-d);font:600 .9rem var(--body);cursor:pointer;padding:10px 4px;min-height:44px}
+main{max-width:640px;margin:0 auto;padding:20px max(16px,env(safe-area-inset-right,0px)) calc(48px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:grid;gap:18px}
+h1,h2{margin:0;text-wrap:balance}
+h1{font-family:var(--accent);font-weight:900;font-size:clamp(1.7rem,6vw,2.2rem);line-height:1.1;color:var(--dark)}
+h1 em{font-style:italic;font-weight:700;color:var(--magenta)}
+h2{font-family:var(--display);font-weight:400;font-size:1.3rem;color:var(--magenta-d)}
+p{margin:0}
+.muted{color:var(--muted)}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--magenta)}
+.eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--magenta);flex:none}
+.card{background:var(--white);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 4px 18px rgba(194,24,91,.07);display:grid;gap:12px;min-width:0}
+.card.soft{background:var(--blush)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:13px 28px;border-radius:100px;border:2px solid transparent;background:linear-gradient(135deg,var(--magenta),var(--coral));color:var(--white);font:600 1rem var(--body);cursor:pointer;text-decoration:none;box-shadow:0 8px 24px rgba(194,24,91,.28);width:100%;text-align:center}
+.btn.ghost{background:var(--white);color:var(--magenta-d);border-color:rgba(194,24,91,.25);box-shadow:none}
+.btn[disabled]{opacity:.6;cursor:wait}
+.btn:focus-visible,.link:focus-visible,input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
+label{font-size:.85rem;font-weight:700;color:var(--magenta-d);display:grid;gap:6px}
+input[type=email],input[type=password]{font:1rem var(--body);padding:12px 16px;border:1.5px solid #EBC9D6;border-radius:14px;background:var(--cream);color:var(--ink);width:100%;min-height:50px}
+.err{font-size:.85rem;color:#B00020;min-height:1.2em}
+.ok{font-size:.9rem;padding:10px 14px;border-radius:12px;background:#E8F5E9;color:#1B5E20}
+/* progreso */
+.prog{height:10px;border-radius:100px;background:var(--rose-l);overflow:hidden}
+.prog i{display:block;height:100%;border-radius:100px;background:linear-gradient(90deg,var(--magenta),var(--coral));transition:width .3s}
+.progtxt{display:flex;justify-content:space-between;gap:12px;font-size:.9rem;color:var(--muted)}
+.progtxt b{color:var(--magenta-d)}
+/* semanas */
+.week h2{margin-bottom:2px}
+.week .sub{font-size:.88rem;color:var(--muted);margin-bottom:10px}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.day{aspect-ratio:1;min-height:44px;border-radius:14px;border:1.5px solid var(--line);background:var(--white);color:var(--magenta-d);font:700 .95rem var(--body);cursor:pointer;display:grid;place-items:center;position:relative;padding:0}
+.day.done{background:linear-gradient(135deg,var(--magenta),var(--coral));border-color:transparent;color:var(--white)}
+.day.done::after{content:"";position:absolute;right:5px;top:4px;width:6px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(40deg) scale(.75)}
+.day.next{border-color:var(--magenta);box-shadow:0 0 0 3px rgba(240,98,146,.25)}
+/* día */
+.back{justify-self:start}
+.badges{font-size:.88rem;color:var(--magenta-d);font-weight:600}
+.meal{padding:0;overflow:hidden}
+.mhead{display:flex;align-items:center;gap:12px;padding:14px 16px}
+.tick{flex:none;width:36px;height:36px;border-radius:50%;border:2px solid var(--rose);background:var(--white);cursor:pointer;position:relative;padding:0}
+.tick[aria-checked="true"]{background:linear-gradient(135deg,var(--magenta),var(--coral));border-color:transparent}
+.tick[aria-checked="true"]::after{content:"";position:absolute;left:12px;top:6px;width:8px;height:15px;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(40deg)}
+.mtitle{flex:1;min-width:0;background:none;border:0;text-align:left;cursor:pointer;font:inherit;color:inherit;padding:2px 0;display:grid;gap:2px}
+.mtitle .t{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--magenta)}
+.mtitle .n{font-weight:600;color:var(--ink);overflow-wrap:anywhere}
+.chev{flex:none;width:12px;height:12px;border:solid var(--magenta);border-width:0 2px 2px 0;transform:rotate(45deg);transition:transform .2s;margin-right:4px}
+.mhead.open .chev{transform:rotate(-135deg)}
+.mbody{padding:0 16px 16px;display:grid;gap:12px;border-top:1px solid var(--line);padding-top:14px}
+.mbody ul,.mbody ol,.card ul{margin:4px 0 0;padding-left:1.2rem}
+.mbody li,.card li{margin-bottom:4px}
+.mbody li::marker,.card li::marker{color:var(--magenta);font-weight:700}
+.macros{display:flex;flex-wrap:wrap;gap:6px}
+.macros span{background:var(--rose-l);color:var(--magenta-d);border-radius:100px;padding:3px 12px;font-size:.8rem;font-weight:600}
+.rowtick{display:flex;align-items:center;gap:12px}
+.nav{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.nav .btn{box-shadow:none;padding:12px 14px;font-size:.92rem}
+.tiny{font-size:.78rem;color:var(--muted);line-height:1.5}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--mid);color:var(--white);padding:12px 22px;border-radius:100px;font-size:.9rem;opacity:0;pointer-events:none;transition:.25s;z-index:40;max-width:calc(100% - 32px);text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
-<main>
-<h1>Tu app está en camino</h1>
-<p>Acá vas a poder descargar la app de Hábitos BienSmart y seguir tu progreso día a día.</p>
-<a href="/habitos/">Volver al reto</a>
-</main>
+<header class="bar"><div class="in"><a class="brand" href="/descargas/">Hábitos <span>BienSmart</span></a><button class="link" id="salir" type="button" hidden>Salir</button></div></header>
+<main id="app" aria-live="polite"><p class="muted">Cargando…</p></main>
+<div class="toast" id="toast" role="status"></div>
+<script src="/assets/biensmart.js"></script>
+<script>
+(function () {
+  var $ = function (s) { return document.querySelector(s); };
+  var CURSO = BS.cfg.PRODUCTO, DEMO = !!window.BS_DEMO;
+  var S = { nombre: '', lec: [], hechas: {}, archivos: [], cta: null };
+  var SUF = { 'Desayuno': 'desayuno', 'Colación': 'colacion', 'Almuerzo': 'almuerzo', 'Merienda': 'merienda', 'Cena': 'cena' };
+  var SEM = [
+    { t: 'Semana 1 · Arrancar', s: 'Soltás las harinas refinadas y el azúcar agregada.' },
+    { t: 'Semana 2 · Afianzar', s: 'Los hábitos se acomodan.' },
+    { t: 'Semana 3 · Brillar', s: 'Tu propio ritmo, hasta la celebración del día 21.' }
+  ];
+
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function li(a) { return (a || []).map(function (x) { return '<li>' + esc(x) + '</li>'; }).join(''); }
+  function dayId(n) { return 'd' + n; }
+  function hecho(id) { return !!S.hechas[id]; }
+  function diasHechos() { return S.lec.filter(function (d) { return hecho(dayId(d.n)); }).length; }
+  function siguiente() { for (var i = 0; i < S.lec.length; i++) if (!hecho(dayId(S.lec[i].n))) return S.lec[i]; return null; }
+  function setHechas(arr) { S.hechas = {}; (arr || []).forEach(function (i) { S.hechas[i] = 1; }); }
+  function toast(m) { BS.toast(m); }
+
+  // ── Sesión ──
+  function salir(msg) {
+    var t = BS.token();
+    if (t && !DEMO) BS.api('/auth/logout', { method: 'POST', auth: true });
+    BS.store('bs_token', null);
+    S = { nombre: '', lec: [], hechas: {}, archivos: [], cta: null };
+    $('#salir').hidden = true;
+    vistaLogin(msg || '');
+  }
+  $('#salir').addEventListener('click', function () { salir(''); });
+
+  function cargar() {
+    if (DEMO) {
+      S.nombre = window.BS_DEMO_USER || '';
+      S.lec = window.BS_DEMO_DATA || [];
+      setHechas(window.BS_DEMO_HECHAS || []);
+      S.archivos = [{ id: 'ebook', disponible: false }];
+      $('#salir').hidden = true;
+      return Promise.resolve(true);
+    }
+    return Promise.all([
+      BS.api('/academy/lecciones?curso=' + CURSO, { auth: true }),
+      BS.api('/academy/archivos', { auth: true })
+    ]).then(function (r) {
+      var l = r[0];
+      if (l.status === 401) { salir('Tu sesión venció. Entrá de nuevo.'); return false; }
+      if (l.status === 403) { salir('Esta cuenta todavía no tiene el reto. Si compraste, usá el link del mail para crear tu usuario.'); return false; }
+      if (!l.ok) { $('#app').innerHTML = '<div class="card"><p>No pudimos cargar tu reto. Revisá tu conexión.</p><button class="btn" id="reint" type="button">Reintentar</button></div>'; $('#reint').onclick = function () { start(); }; return false; }
+      S.lec = l.data.lecciones || [];
+      setHechas(l.data.hechas);
+      S.archivos = (r[1].ok && r[1].data.items || []).filter(function (a) { return a.curso === CURSO; });
+      $('#salir').hidden = false;
+      return true;
+    });
+  }
+
+  // ── Ingreso ──
+  function vistaLogin(msg) {
+    $('#app').innerHTML =
+      '<div class="card"><span class="eyebrow">Tu cuenta</span><h1>Entrá a tu <em>reto</em></h1>' +
+      '<p class="muted">Usá el email y la contraseña que creaste al comprar.</p>' +
+      '<form id="fl" novalidate style="display:grid;gap:14px">' +
+      '<label for="le">Email<input type="email" id="le" autocomplete="email"></label>' +
+      '<label for="lp">Contraseña<input type="password" id="lp" autocomplete="current-password"></label>' +
+      '<div class="err" id="lerr" role="alert">' + esc(msg) + '</div>' +
+      '<button class="btn" type="submit" id="lgo">Entrar</button>' +
+      '<button class="link" type="button" id="lforg">Olvidé mi contraseña</button>' +
+      '</form></div>' +
+      '<p class="tiny">¿Todavía no tenés el reto? <a href="/habitos/" style="color:var(--magenta-d)">Conocelo acá</a>.</p>';
+    $('#fl').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var em = $('#le').value.trim().toLowerCase(), pw = $('#lp').value, er = $('#lerr');
+      if (!BS.emailOk(em) || !pw) { er.textContent = 'Completá tu email y tu contraseña.'; return; }
+      er.textContent = ''; $('#lgo').disabled = true; $('#lgo').textContent = 'Entrando…';
+      BS.api('/auth/login', { method: 'POST', body: { email: em, password: pw } }).then(function (r) {
+        if (r.ok && r.data.token) {
+          if ((r.data.courses || []).indexOf(CURSO) === -1) { er.textContent = 'Esta cuenta no tiene el reto de 21 días.'; $('#lgo').disabled = false; $('#lgo').textContent = 'Entrar'; return; }
+          BS.store('bs_token', r.data.token); S.nombre = r.data.nombre || ''; start();
+        } else {
+          er.textContent = (r.data && r.data.error) || 'No pudimos entrar. Revisá tus datos.';
+          $('#lgo').disabled = false; $('#lgo').textContent = 'Entrar';
+        }
+      });
+    });
+    $('#lforg').addEventListener('click', function () {
+      var em = $('#le').value.trim().toLowerCase(), er = $('#lerr');
+      if (!BS.emailOk(em)) { er.textContent = 'Escribí tu email arriba y volvé a tocar "Olvidé mi contraseña".'; return; }
+      er.textContent = '';
+      BS.api('/auth/forgot', { method: 'POST', body: { email: em } }).then(function () { toast('Si el email tiene cuenta, te llega un link en unos minutos.'); });
+    });
+  }
+
+  // ── Inicio ──
+  function vistaHome() {
+    var h = diasHechos(), tot = S.lec.length || 21, pct = Math.round(h * 100 / tot), sig = siguiente();
+    var html = '<div><span class="eyebrow">Tu reto</span><h1 style="margin-top:8px">Hola' + (S.nombre ? ', <em>' + esc(S.nombre) + '</em>' : '') + '</h1></div>';
+    html += '<div class="card"><div class="progtxt"><span>Llevás <b>' + h + ' de ' + tot + '</b> días</span><span>' + pct + '%</span></div>' +
+      '<div class="prog" role="progressbar" aria-valuemin="0" aria-valuemax="' + tot + '" aria-valuenow="' + h + '" aria-label="Días completados"><i style="width:' + pct + '%"></i></div>';
+    if (sig) html += '<p class="muted">Seguí con el día ' + sig.n + ': ' + esc(sig.titulo) + '</p><a class="btn" href="#d' + sig.n + '">Ir al día ' + sig.n + '</a>';
+    else if (h >= tot) html += '<p>¡Completaste los 21 días! Gracias por cuidarte así.</p>';
+    html += '</div>';
+    [0, 1, 2].forEach(function (w) {
+      html += '<section class="week" aria-label="' + esc(SEM[w].t) + '"><h2>' + esc(SEM[w].t) + '</h2><p class="sub">' + esc(SEM[w].s) + '</p><div class="days">';
+      for (var n = w * 7 + 1; n <= w * 7 + 7; n++) {
+        var d = hecho(dayId(n)), nx = sig && sig.n === n;
+        html += '<button type="button" class="day' + (d ? ' done' : '') + (nx ? ' next' : '') + '" data-d="' + n + '" aria-label="Día ' + n + (d ? ', completo' : nx ? ', el que sigue' : '') + '">' + n + '</button>';
+      }
+      html += '</div></section>';
+    });
+    var eb = S.archivos.filter(function (a) { return a.id === 'ebook'; })[0];
+    html += '<div class="card soft"><h2>Tu ebook</h2>' + (eb && eb.disponible
+      ? '<p class="muted">El reto completo en PDF, con listas de compras y planilla de seguimiento.</p><button class="btn" id="bajar" type="button">Descargar el ebook</button>'
+      : '<p class="muted">Tu ebook en PDF va a estar disponible acá muy pronto.</p>') + '</div>';
+    html += '<div class="card" id="inst" hidden><h2>Instalá la app</h2><p class="muted" id="instTxt">Agregala a tu pantalla de inicio para entrar con un toque.</p><button class="btn ghost" id="instBtn" type="button" hidden>Instalar</button></div>';
+    html += '<p class="tiny">Contenido informativo. No reemplaza la consulta con un profesional de la salud. © 2026 Vanesa Anahí Fernández - COSMART. Todos los derechos reservados. Queda prohibida la reproducción, distribución, comercialización o puesta a disposición de este material, total o parcial, sin autorización previa y por escrito de su titular, salvo los usos permitidos por la legislación aplicable.</p>';
+    $('#app').innerHTML = html;
+    document.querySelectorAll('.day').forEach(function (b) { b.addEventListener('click', function () { location.hash = 'd' + b.dataset.d; }); });
+    var bj = $('#bajar'); if (bj) bj.addEventListener('click', descargar);
+    mostrarInstalar();
+  }
+
+  function descargar() {
+    var b = $('#bajar'); b.disabled = true; b.textContent = 'Descargando…';
+    fetch(BS.cfg.CORE + '/academy/archivo/' + CURSO + '/ebook', { headers: { Authorization: 'Bearer ' + BS.token() } })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.blob(); })
+      .then(function (bl) {
+        var u = URL.createObjectURL(bl), a = document.createElement('a');
+        a.href = u; a.download = 'Habitos-BienSmart-Reto-21-dias.pdf'; document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function () { URL.revokeObjectURL(u); }, 4000);
+      })
+      .catch(function () { toast('No pudimos descargar el ebook ahora. Intentá de nuevo en un rato.'); })
+      .then(function () { var x = $('#bajar'); if (x) { x.disabled = false; x.textContent = 'Descargar el ebook'; } });
+  }
+
+  // ── Instalar (Android: botón; iPhone: instrucción) ──
+  window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); S.cta = e; mostrarInstalar(); });
+  function mostrarInstalar() {
+    var c = $('#inst'); if (!c) return;
+    var standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+    if (standalone) return;
+    var ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    if (S.cta) { c.hidden = false; $('#instBtn').hidden = false; $('#instBtn').onclick = function () { S.cta.prompt(); S.cta = null; c.hidden = true; }; }
+    else if (ios) { c.hidden = false; $('#instTxt').textContent = 'En tu iPhone: tocá Compartir y elegí "Agregar a inicio".'; }
+  }
+
+  // ── Día ──
+  function tick(id, label) { return '<button type="button" class="tick" role="checkbox" aria-checked="' + hecho(id) + '" aria-label="' + esc(label) + '" data-id="' + id + '"></button>'; }
+  function vistaDia(n) {
+    var d = S.lec.filter(function (x) { return x.n === n; })[0];
+    if (!d) { location.hash = ''; return; }
+    var html = '<a class="link back" href="#">← Mis días</a>' +
+      '<div><span class="eyebrow">Día ' + d.n + ' · ' + esc(d.nombre) + '</span><h1 style="margin-top:8px">' + esc(d.titulo) + '</h1>' +
+      (d.badges && d.badges.length ? '<p class="badges" style="margin-top:6px">' + d.badges.map(esc).join(' · ') + '</p>' : '') + '</div>';
+    html += '<h2>Comidas</h2>';
+    d.comidas.forEach(function (m, i) {
+      var id = dayId(n) + '-' + SUF[m.tipo];
+      html += '<div class="card meal"><div class="mhead" data-m="' + i + '">' + tick(id, m.tipo + ' hecha') +
+        '<button type="button" class="mtitle" aria-expanded="false"><span class="t">' + esc(m.tipo) + '</span><span class="n">' + esc(m.nombre) + '</span></button><span class="chev" aria-hidden="true"></span></div>' +
+        '<div class="mbody" hidden><div><strong>Ingredientes</strong><ul>' + li(m.ingredientes) + '</ul></div><div><strong>Paso a paso</strong><ol>' + li(m.pasos) + '</ol></div>' +
+        (m.macros && m.macros.length ? '<div class="macros">' + m.macros.map(function (x) { return '<span>' + esc(x) + '</span>'; }).join('') + '</div>' : '') + '</div></div>';
+    });
+    if (d.tip) {
+      html += '<div class="card soft"><span class="eyebrow">' + esc(d.tip.numero) + '</span><h2>' + esc(d.tip.titulo) + '</h2><p>' + esc(d.tip.texto) + '</p>' +
+        ((d.tip.highlights || []).length ? '<ul>' + li(d.tip.highlights) + '</ul>' : '') +
+        ((d.tip.lista || []).length ? '<p><strong>Para sumar</strong></p><ul>' + li(d.tip.lista) + '</ul>' : '') + '</div>';
+    }
+    if (d.rutina) {
+      var r = d.rutina, rid = dayId(n) + '-rutina';
+      html += '<div class="card"><div class="rowtick">' + tick(rid, 'Rutina hecha') + '<div style="min-width:0"><span class="eyebrow">Rutina opcional</span><h2>' + esc(r.tipo) + '</h2></div></div><p class="muted">' + esc(r.descripcion) + '</p>' +
+        ((r.calor || []).length ? '<div><strong>Calentamiento</strong><ul>' + li(r.calor) + '</ul></div>' : '') +
+        ((r.ejercicios || []).length ? '<div><strong>Ejercicios</strong><ol>' + r.ejercicios.map(function (e) { return '<li>' + esc(e.nombre) + ': ' + esc(e.reps) + '</li>'; }).join('') + '</ol></div>' : '') +
+        (r.series ? '<p>' + esc(r.series) + '</p>' : '') + (r.visualizacion ? '<p class="muted"><em style="font-family:var(--accent)">' + esc(r.visualizacion) + '</em></p>' : '') + '</div>';
+    }
+    html += '<button class="btn" id="diaok" type="button"></button>';
+    html += '<div class="nav">' + (n > 1 ? '<a class="btn ghost" href="#d' + (n - 1) + '">← Día ' + (n - 1) + '</a>' : '<span></span>') + (n < S.lec.length ? '<a class="btn ghost" href="#d' + (n + 1) + '">Día ' + (n + 1) + ' →</a>' : '<span></span>') + '</div>';
+    $('#app').innerHTML = html;
+    window.scrollTo(0, 0);
+    pintarDia(n);
+    document.querySelectorAll('.mtitle').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var head = b.parentNode, body = head.nextElementSibling, abre = body.hidden;
+        body.hidden = !abre; head.classList.toggle('open', abre); b.setAttribute('aria-expanded', abre);
+      });
+    });
+    document.querySelectorAll('.tick').forEach(function (t) { t.addEventListener('click', function () { marcar(t.dataset.id, t.getAttribute('aria-checked') !== 'true', n); }); });
+    $('#diaok').addEventListener('click', function () { marcar(dayId(n), !hecho(dayId(n)), n); });
+  }
+  function pintarDia(n) {
+    document.querySelectorAll('.tick').forEach(function (t) { t.setAttribute('aria-checked', hecho(t.dataset.id)); });
+    var b = $('#diaok'); if (!b) return;
+    var ok = hecho(dayId(n));
+    b.textContent = ok ? 'Día completo (tocá para desmarcar)' : 'Marcar el día como completo';
+    b.className = ok ? 'btn ghost' : 'btn';
+  }
+
+  // Marca o desmarca (se ve al instante; si el servidor no lo guarda, vuelve atrás).
+  function marcar(id, valor, n) {
+    var antes = hecho(id);
+    if (valor) S.hechas[id] = 1; else delete S.hechas[id];
+    pintarDia(n);
+    if (DEMO) return;
+    BS.api('/academy/leccion', { method: 'POST', auth: true, body: { curso: CURSO, id: id, hecha: valor } }).then(function (r) {
+      if (r.status === 401) { salir('Tu sesión venció. Entrá de nuevo.'); return; }
+      if (!r.ok) { if (antes) S.hechas[id] = 1; else delete S.hechas[id]; pintarDia(n); toast('No pudimos guardar. Revisá tu conexión.'); return; }
+      if (r.data && r.data.hechas) { setHechas(r.data.hechas); pintarDia(n); }
+    });
+  }
+
+  function ruta() {
+    var m = /^#d(\d{1,2})$/.exec(location.hash);
+    if (!S.lec.length) return;
+    if (m) vistaDia(parseInt(m[1], 10)); else { vistaHome(); window.scrollTo(0, 0); }
+  }
+  window.addEventListener('hashchange', ruta);
+
+  function start() {
+    if (!DEMO && !BS.token()) { vistaLogin(''); return; }
+    $('#app').innerHTML = '<p class="muted">Cargando tu reto…</p>';
+    cargar().then(function (ok) { if (ok) ruta(); });
+  }
+  if (!DEMO && 'serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('/descargas/sw.js').catch(function () {});
+  start();
+})();
+</script>
 </body>
 </html>

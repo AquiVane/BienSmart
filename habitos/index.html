@@ -16,6 +16,7 @@
   color-scheme:light;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.65;overflow-x:hidden}
 .wrap{max-width:1080px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));position:relative;z-index:1}
@@ -142,8 +143,13 @@ input[type=text],input[type=email]{font:1rem var(--body);padding:12px 16px;borde
 .pay{background:var(--white);border:1px solid var(--rose-l);border-radius:26px;padding:26px;display:grid;gap:14px;box-shadow:var(--shadow)}
 .paytabs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .paytabs .tab{border-radius:16px;text-align:center}
-.paybody{border:1.5px dashed var(--rose);border-radius:16px;padding:16px;font-size:.9rem;color:var(--muted);min-height:96px;background:var(--cream)}
-.pay.off .paytabs,.pay.off .paybody{opacity:.45;pointer-events:none}
+.pay.off .paytabs,.pay.off .paysec{opacity:.45;pointer-events:none}
+.paysec{display:grid;gap:10px}
+.paymsg{margin:0;font-size:.9rem;color:var(--muted);min-height:1.2em}
+.paymsg.good{color:#1B5E20;font-weight:700}.paymsg.bad{color:#B00020;font-weight:700}
+.msg.warn{background:#FFF3E0;color:#7A3E00}
+.pay{min-width:0}
+#paymentBrick_container,#paypal_container{min-width:0}
 .hint{font-size:.82rem;color:var(--muted)}
 /* faq */
 .faq-sec{background:var(--cream)}
@@ -345,11 +351,20 @@ footer strong,footer a{color:var(--white)}
       <label class="check" for="buy-ok"><input type="checkbox" id="buy-ok" checked> Entiendo que es un producto digital que se entrega por vía electrónica al acreditarse el pago.</label>
       <p class="hint" id="payHint">Completá tu email y tildá la casilla para elegir cómo pagar.</p>
       <div class="paytabs" role="tablist" aria-label="Medio de pago">
-        <button class="tab" role="tab" aria-selected="true" data-pay="mp" id="tab-mp">Mercado Pago</button>
-        <button class="tab" role="tab" aria-selected="false" data-pay="pp" id="tab-pp">PayPal</button>
+        <button class="tab" role="tab" aria-selected="true" data-pay="mp" id="tab-mp" type="button">Mercado Pago</button>
+        <button class="tab" role="tab" aria-selected="false" data-pay="pp" id="tab-pp" type="button">PayPal</button>
       </div>
-      <div class="paybody" id="paybody">Mercado Pago: tarjetas, transferencia y dinero en cuenta. Total: $ 12.000.</div>
-      <button class="btn" type="button" id="payBtn">Pagar y recibir mi reto</button>
+      <div class="paysec" id="mp-section">
+        <p class="hint">Tarjetas, transferencia y dinero en cuenta. Total: $ 12.000.</p>
+        <div id="paymentBrick_container"></div>
+        <div id="mpAlternativa"></div>
+        <p class="paymsg" id="mpmsg" role="status"></p>
+      </div>
+      <div class="paysec" id="pp-section" hidden>
+        <p class="hint">Tarjetas internacionales o saldo PayPal. Total: USD 7,80 (antes USD 15).</p>
+        <div id="paypal_container"></div>
+        <p class="paymsg" id="ppmsg" role="status"></p>
+      </div>
     </div>
   </div>
 </section>
@@ -377,6 +392,7 @@ footer strong,footer a{color:var(--white)}
 
 <div class="toast" id="toast" role="status"></div>
 
+<script src="/assets/biensmart.js"></script>
 <script>
 (function(){
   var $=function(s){return document.querySelector(s)};
@@ -395,24 +411,111 @@ footer strong,footer a{color:var(--white)}
     b.addEventListener('click',function(){toast('El día '+d+' se abre al comprar el reto.');document.getElementById('comprar').scrollIntoView({behavior:'smooth'})});
     lk.appendChild(b)})(i)}
   var ok=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  var pay=$('#pay'),be=$('#buy-email'),bo=$('#buy-ok'),hint=$('#payHint'),cur='mp';
+  var BSX=window.BS, C=BSX.cfg, PREVIEW=!!window.BS_PREVIEW;
+  var pay=$('#pay'),be=$('#buy-email'),bo=$('#buy-ok'),hint=$('#payHint'),tab='mp',brick=null,brickBusy=false,rehacer=false,ppListo=false,deb;
+  function emailPago(){return be.value.trim().toLowerCase()}
+  function valido(){return ok.test(emailPago())&&bo.checked}
+  function items(){return [{producto:C.PRODUCTO,amount:C.ARS}]}
+  function meta(){return {fbp:BSX.cookie('_fbp'),fbc:BSX.cookie('_fbc'),client_user_agent:navigator.userAgent,event_source_url:location.href,vid:BSX.vid(),lead_email:emailPago()}}
+  function graciasUrl(extra){return '/habitos/gracias/?email='+encodeURIComponent(emailPago())+(extra||'')}
   function gate(){
-    var good=ok.test(be.value.trim())&&bo.checked;
+    var good=valido();
     pay.classList.toggle('off',!good);
-    hint.textContent=good?'Elegí cómo querés pagar.':(!ok.test(be.value.trim())?'Completá tu email para elegir cómo pagar.':'Tildá la casilla para elegir cómo pagar.');
+    hint.textContent=good?'Elegí cómo querés pagar.':(!ok.test(emailPago())?'Completá tu email para elegir cómo pagar.':'Tildá la casilla para elegir cómo pagar.');
+    if(good) iniciarPago();
   }
-  be.addEventListener('input',gate);bo.addEventListener('change',gate);
-  var bodies={mp:'Mercado Pago: tarjetas, transferencia y dinero en cuenta. Total: $ 12.000.',pp:'PayPal: tarjetas internacionales o saldo PayPal. Total: USD 7,80 (antes USD 15).'};
+  function iniciarPago(){
+    if(PREVIEW){ $('#mpmsg').textContent='Vista previa: acá se carga el formulario de Mercado Pago en esta misma página.'; $('#ppmsg').textContent='Vista previa: acá se cargan los botones de PayPal en esta misma página.'; return; }
+    if(tab==='pp') montarPayPal(); else montarBrick();
+  }
+  // Mercado Pago: Payment Brick embebido (nunca se sale de esta página). El monto lo vuelve a fijar el servidor.
+  function fallo(){
+    $('#mpAlternativa').innerHTML='<div class="msg warn">El formulario de pago está tardando en cargar. <button class="btn ghost" type="button" id="reintentar" style="min-height:44px;margin-top:10px">Reintentar</button><br><span style="font-size:13px">Si sigue sin cargar, escribinos a hola@vamatienda.com.ar y lo resolvemos.</span></div>';
+    $('#reintentar').onclick=function(){$('#mpAlternativa').innerHTML='';montarBrick()};
+  }
+  async function montarBrick(){
+    if(brickBusy){rehacer=true;return}
+    if(!valido()) return;
+    brickBusy=true;
+    var msg=$('#mpmsg'); msg.textContent=''; msg.className='paymsg';
+    var timer=setTimeout(fallo,9000);
+    try{
+      if(brick){try{await brick.unmount()}catch(e){} brick=null}
+      $('#paymentBrick_container').innerHTML='';
+      if(typeof MercadoPago==='undefined') await BSX.loadScript('https://sdk.mercadopago.com/js/v2');
+      var ctrl=new AbortController(), tmo=setTimeout(function(){ctrl.abort()},9000);
+      var r=await fetch(C.MP_WORKER+'/preference',{method:'POST',headers:{'Content-Type':'application/json'},signal:ctrl.signal,body:JSON.stringify(Object.assign({items:items()},meta()))});
+      clearTimeout(tmo);
+      var j=await r.json();
+      if(!j.preference_id) throw new Error('sin preference_id');
+      var mp=new MercadoPago(C.MP_PUBLIC_KEY,{locale:'es-AR'});
+      brick=await mp.bricks().create('payment','paymentBrick_container',{
+        initialization:{amount:C.ARS,preferenceId:j.preference_id,payer:{email:emailPago()}},
+        customization:{visual:{hideFormTitle:true,style:{theme:'default'}},paymentMethods:{creditCard:'all',debitCard:'all',mercadoPago:'all'}},
+        callbacks:{
+          onReady:function(){clearTimeout(timer)},
+          onSubmit:function(p){
+            return new Promise(async function(resolve,reject){
+              // Dinero en cuenta: el Brick lo resuelve solo con la preferencia (el pago llega por webhook).
+              if(p.selectedPaymentMethod==='wallet_purchase'||p.selectedPaymentMethod==='account_money') return resolve();
+              try{
+                var pr=await fetch(C.MP_WORKER+'/pay',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.assign({},p.formData,{items:items()},meta()))});
+                var d=await pr.json();
+                if(d.status==='approved'){
+                  msg.className='paymsg good'; msg.textContent='¡Pago aprobado! Te llevamos a tu confirmación…';
+                  $('#paymentBrick_container').style.display='none';
+                  setTimeout(function(){location.href=graciasUrl('')},1500);
+                }else if(d.status==='in_process'||d.status==='pending'){
+                  location.href=graciasUrl('&estado=pendiente');
+                }else{
+                  msg.className='paymsg bad'; msg.textContent='No se pudo procesar el pago. Revisá los datos e intentá de nuevo.';
+                }
+                resolve();
+              }catch(e){msg.className='paymsg bad'; msg.textContent='Error de conexión. Intentá de nuevo.'; reject()}
+            });
+          },
+          onError:function(e){console.error(e)}
+        }
+      });
+    }catch(e){clearTimeout(timer);fallo()}
+    brickBusy=false;
+    if(rehacer){rehacer=false;montarBrick()}
+  }
+  // PayPal (USD): botones del SDK. Después de capturar, el Worker verifica la orden y el monto antes de dar acceso.
+  async function montarPayPal(){
+    if(ppListo||!valido()) return;
+    var msg=$('#ppmsg');
+    try{
+      if(typeof paypal==='undefined') await BSX.loadScript('https://www.paypal.com/sdk/js?client-id='+C.PAYPAL_CLIENT_ID+'&currency=USD&intent=capture');
+    }catch(e){msg.className='paymsg bad'; msg.textContent='No se pudo cargar PayPal. Revisá tu conexión.'; return}
+    ppListo=true;
+    paypal.Buttons({
+      style:{layout:'vertical',color:'gold',shape:'pill',label:'pay',height:48},
+      onClick:function(d,actions){ if(!valido()){hint.textContent='Completá tu email para pagar.';be.focus();return actions.reject()} return actions.resolve() },
+      createOrder:function(d,actions){ return actions.order.create({purchase_units:[{description:'Hábitos BienSmart — Reto de 21 días',amount:{value:C.USD.toFixed(2),currency_code:'USD'}}]}) },
+      onApprove:function(d,actions){
+        msg.className='paymsg'; msg.textContent='Procesando pago…';
+        return actions.order.capture().then(function(det){
+          var mail=(det.payer&&det.payer.email_address)||emailPago();
+          return BSX.api('/payment/paypal',{method:'POST',body:{email:mail,orderID:d.orderID,courseId:C.PRODUCTO,vid:BSX.vid()}}).then(function(res){
+            if(res.ok) location.href=graciasUrl('&pago=paypal&token='+encodeURIComponent(res.data.reg_token||'')+'&mail='+encodeURIComponent(mail));
+            else{msg.className='paymsg bad'; msg.textContent='Tu pago se acreditó pero no pudimos habilitar el acceso solos. Escribinos a hola@vamatienda.com.ar con tu email y lo resolvemos.'}
+          });
+        });
+      },
+      onError:function(){msg.className='paymsg bad'; msg.textContent='Error al procesar el pago. Intentá de nuevo.'}
+    }).render('#paypal_container');
+  }
   document.querySelectorAll('.paytabs .tab').forEach(function(t){
     t.addEventListener('click',function(){
-      cur=t.dataset.pay;
+      tab=t.dataset.pay;
       document.querySelectorAll('.paytabs .tab').forEach(function(x){x.setAttribute('aria-selected',x===t)});
-      $('#paybody').textContent=bodies[cur];
+      $('#mp-section').hidden=tab!=='mp'; $('#pp-section').hidden=tab!=='pp';
+      if(valido()) iniciarPago();
     });
   });
-  $('#payBtn').addEventListener('click',function(){
-    toast('Vista previa: acá se abre el pago de '+(cur==='mp'?'Mercado Pago':'PayPal')+' dentro de esta misma página.');
-  });
+  be.addEventListener('input',function(){clearTimeout(deb);deb=setTimeout(gate,600)});
+  bo.addEventListener('change',gate);
   gate();
 })();
 </script>
