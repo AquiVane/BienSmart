@@ -500,7 +500,7 @@ footer strong,footer a{color:var(--white)}
           onSubmit:function(p){
             return new Promise(async function(resolve,reject){
               // Dinero en cuenta: el Brick lo resuelve solo con la preferencia (el pago llega por webhook).
-              if(p.selectedPaymentMethod==='wallet_purchase'||p.selectedPaymentMethod==='account_money') return resolve();
+              if(p.selectedPaymentMethod==='wallet_purchase'||p.selectedPaymentMethod==='account_money'||p.selectedPaymentMethod==='onboarding_credits') return resolve();
               try{
                 var pr=await fetch(C.MP_WORKER+'/pay',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.assign({},p.formData,{items:items()},meta()))});
                 var d=await pr.json();
