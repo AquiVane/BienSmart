@@ -1,0 +1,17 @@
+{
+  "name": "Hábitos BienSmart",
+  "short_name": "BienSmart",
+  "description": "Tu reto de 21 días sin harinas ni azúcar agregada, con tu progreso día a día.",
+  "lang": "es-AR",
+  "id": "/descargas/habitos/",
+  "start_url": "/descargas/habitos/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FFF9FA",
+  "theme_color": "#C2185B",
+  "icons": [
+    { "src": "/descargas/habitos/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/descargas/habitos/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/descargas/habitos/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

@@ -37,6 +37,13 @@ Los 21 días (comidas, tip, rutina) ya están escritos por Vaneh en su sitio htt
 - Probado con Playwright (celular y escritorio) contra un servidor simulado: ingreso, progreso por cuenta, registro, reset, gracias y checkout (preferencia con el producto y el email). **No probado con pagos reales.**
 - Pendiente: deploy de los workers (aviso a Vaneh), probar un pago real chico en MP y PayPal, mezclar la rama a `main`, ebook en PDF (subirlo a R2) y conectar el formulario de la guía gratuita.
 
+## 20/10 (2) — Cambios pedidos por Vaneh sobre la rama `claude/checkout-app`
+- **La app vive en `/descargas/habitos/`** (antes `/descargas/`, que ahora redirige). Manifest con `scope:"/"` para poder instalarse también desde la landing.
+- **Días de a uno**: el día N solo se abre si el N-1 está tildado como completo (para que use la app todos los días). La regla la aplica el SERVIDOR (`cosmart-workers`, ver su HANDOFF): los días cerrados llegan sin contenido y no se pueden marcar. Pregunta abierta a Vaneh: ¿además se limita a un día nuevo por día calendario? Hoy NO. El ebook trae los 21 días completos.
+- **Transferencia bancaria** (3.ª pestaña del pago en la landing): alias `contacto.smart`, monto $12.000, comprobante a `hola@vamatienda.com.ar` indicando el email de la cuenta; Vaneh activa a mano con `POST /admin/otorgar` del core (todavía sin botón en el panel). **Pendiente de Vaneh confirmar el alias exacto y el nombre del titular antes de publicar en `main`** (si el alias está mal, el dinero va a otra persona).
+- **Descargar la app** (`assets/instalar.js`): botón + pasos de Android y de iPhone en la landing, la página de gracias y dentro de la app (también en el ingreso, `?instalar=1`). Si el navegador permite instalar con un toque, lo hace; si no, guía con los pasos.
+- Pruebas con Playwright (celular y escritorio) en `scratchpad`, no commiteadas: ingreso, progreso, días cerrados, registro, reset, gracias, checkout, transferencia, instalar.
+
 ## Pendiente
 1. Aprobación de Vaneh de textos y de la landing (preview en artifact).
 2. Backend de cobro: registrar el producto en `cosmart-training-core` (`COURSES`, `PAYPAL_MIN_USD`) y `mp-productos-ganadores` (`PRODUCTOS`) en `AquiVane/cosmart-workers`, y permitir el origen de la landing. Deploy manual: avisar a Vaneh antes.

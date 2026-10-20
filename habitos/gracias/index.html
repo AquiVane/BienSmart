@@ -20,12 +20,16 @@
     <li>Entrá a tu reto y marcá lo que vas haciendo cada día.</li>
     <li>Descargá tu ebook en PDF desde tu cuenta.</li>
   </ul>
-  <a class="btn ghost" href="/descargas/">Ya tengo usuario: entrar</a>
+  <a class="btn ghost" href="/descargas/habitos/">Ya tengo usuario: entrar</a>
   <p class="small">Si no te llega el mail en unos minutos, revisá la carpeta de spam o escribinos a <a href="mailto:hola@vamatienda.com.ar">hola@vamatienda.com.ar</a>.</p>
 </main>
+<section class="card" style="margin-top:18px" data-instalar data-app="/descargas/habitos/"></section>
 <div class="toast" id="toast" role="status"></div>
+<script src="/assets/biensmart.js"></script>
+<script src="/assets/instalar.js"></script>
 <script>
 (function(){
+  BSInstall.render();
   var q=new URLSearchParams(location.search), email=q.get('email')||'', token=q.get('token')||'', pend=q.get('estado')==='pendiente';
   function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
   var dest=email?'<strong>'+esc(email)+'</strong>':'tu email';

@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Hábitos BienSmart</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&display=swap">
+<link rel="manifest" href="/descargas/habitos/manifest.webmanifest">
 <style>
 /* Concepto: la estética original de Aquí Vaneh. Crema con degradés pastel, pastillas blancas, formas orgánicas y botón magenta a coral. */
 :root{
@@ -141,9 +142,17 @@ input[type=text],input[type=email]{font:1rem var(--body);padding:12px 16px;borde
 .incl li{padding-left:28px;position:relative}
 .incl li::before{content:"";position:absolute;left:2px;top:.55em;width:11px;height:11px;border-radius:50%;background:linear-gradient(135deg,var(--magenta),var(--coral))}
 .pay{background:var(--white);border:1px solid var(--rose-l);border-radius:26px;padding:26px;display:grid;gap:14px;box-shadow:var(--shadow)}
-.paytabs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.paytabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.paytabs .tab{padding:8px 6px;font-size:.8rem}
 .paytabs .tab{border-radius:16px;text-align:center}
-.pay.off .paytabs,.pay.off .paysec{opacity:.45;pointer-events:none}
+.pay.off #mp-section,.pay.off #pp-section{opacity:.45;pointer-events:none}
+.trsteps{margin:0;padding-left:1.2rem;display:grid;gap:10px;font-size:.95rem}
+.trsteps li::marker{color:var(--magenta);font-weight:700}
+.trsteps a{color:var(--magenta-d)}
+.copy{margin-left:6px;min-height:36px;padding:4px 14px;border-radius:100px;border:1px solid rgba(194,24,91,.25);background:var(--white);color:var(--magenta-d);font:600 .8rem var(--body);cursor:pointer}
+.inst-sec{background:var(--cream);padding-block:56px}
+.card-inst{max-width:620px;margin:0 auto;background:var(--white);border:1px solid var(--rose-l);border-radius:26px;padding:26px;box-shadow:var(--shadow)}
+.card-inst h2{font-size:clamp(1.5rem,4.5vw,2rem)}
 .paysec{display:grid;gap:10px}
 .paymsg{margin:0;font-size:.9rem;color:var(--muted);min-height:1.2em}
 .paymsg.good{color:#1B5E20;font-weight:700}.paymsg.bad{color:#B00020;font-weight:700}
@@ -353,12 +362,21 @@ footer strong,footer a{color:var(--white)}
       <div class="paytabs" role="tablist" aria-label="Medio de pago">
         <button class="tab" role="tab" aria-selected="true" data-pay="mp" id="tab-mp" type="button">Mercado Pago</button>
         <button class="tab" role="tab" aria-selected="false" data-pay="pp" id="tab-pp" type="button">PayPal</button>
+        <button class="tab" role="tab" aria-selected="false" data-pay="tr" id="tab-tr" type="button">Transferencia</button>
       </div>
       <div class="paysec" id="mp-section">
-        <p class="hint">Tarjetas, transferencia y dinero en cuenta. Total: $ 12.000.</p>
+        <p class="hint">Tarjetas de crédito y débito, o dinero en tu cuenta de Mercado Pago. Total: $ 12.000.</p>
         <div id="paymentBrick_container"></div>
         <div id="mpAlternativa"></div>
         <p class="paymsg" id="mpmsg" role="status"></p>
+      </div>
+      <div class="paysec" id="tr-section" hidden>
+        <p class="hint">Pagás por transferencia bancaria y activamos tu acceso cuando recibimos el comprobante.</p>
+        <ol class="trsteps">
+          <li>Transferí <b>$ 12.000</b> al alias <b id="aliasTxt">contacto.smart</b>. <button type="button" class="copy" id="copyAlias">Copiar alias</button></li>
+          <li>Enviá el comprobante a <a href="mailto:hola@vamatienda.com.ar?subject=Comprobante%20H%C3%A1bitos%20BienSmart"><b>hola@vamatienda.com.ar</b></a>. En el mensaje escribí el email con el que vas a usar tu cuenta.</li>
+          <li>Cuando verifiquemos el pago, te enviamos por mail el link para crear tu usuario.</li>
+        </ol>
       </div>
       <div class="paysec" id="pp-section" hidden>
         <p class="hint">Tarjetas internacionales o saldo PayPal. Total: USD 7,80 (antes USD 15).</p>
@@ -369,6 +387,10 @@ footer strong,footer a{color:var(--white)}
   </div>
 </section>
 
+<section class="inst-sec" id="descargar">
+  <div class="wrap"><div class="card-inst" data-instalar data-app="/descargas/habitos/?instalar=1"></div></div>
+</section>
+
 <section class="faq-sec" id="faq">
   <div class="wrap">
     <span class="eyebrow">Preguntas frecuentes</span>
@@ -376,7 +398,9 @@ footer strong,footer a{color:var(--white)}
     <div style="margin-top:24px;max-width:760px">
       <details><summary>¿Tengo que hacer las rutinas?</summary><p>Son opcionales. Podés hacer solo los menús.</p></details>
       <details><summary>¿Cómo recibo el ebook y la app?</summary><p>Apenas se acredita el pago te llega un mail con el ebook en PDF y el acceso a la app.</p></details>
-      <details><summary>¿Cómo puedo pagar?</summary><p>Con Mercado Pago o PayPal. Es un pago único.</p></details>
+      <details><summary>¿Cómo puedo pagar?</summary><p>Con Mercado Pago (tarjeta de crédito, débito o dinero en cuenta), con PayPal o por transferencia bancaria. Es un pago único.</p></details>
+      <details><summary>¿Cómo pago por transferencia?</summary><p>Transferí $ 12.000 al alias contacto.smart y enviá el comprobante a hola@vamatienda.com.ar, escribiendo el email con el que vas a usar tu cuenta. Cuando verifiquemos el pago, te enviamos el link para crear tu usuario.</p></details>
+      <details><summary>¿Cómo descargo la app?</summary><p>Tocá el botón Descargar la app de esta página y seguí los pasos para Android o iPhone. Después entrás con el usuario que creás al comprar.</p></details>
       <details><summary>¿Sirve si tengo una condición de salud?</summary><p>Consultá antes con tu profesional de la salud. Este programa no reemplaza una consulta.</p></details>
     </div>
   </div>
@@ -393,6 +417,7 @@ footer strong,footer a{color:var(--white)}
 <div class="toast" id="toast" role="status"></div>
 
 <script src="/assets/biensmart.js"></script>
+<script src="/assets/instalar.js"></script>
 <script>
 (function(){
   var $=function(s){return document.querySelector(s)};
@@ -425,6 +450,7 @@ footer strong,footer a{color:var(--white)}
     if(good) iniciarPago();
   }
   function iniciarPago(){
+    if(tab==='tr') return;
     if(PREVIEW){ $('#mpmsg').textContent='Vista previa: acá se carga el formulario de Mercado Pago en esta misma página.'; $('#ppmsg').textContent='Vista previa: acá se cargan los botones de PayPal en esta misma página.'; return; }
     if(tab==='pp') montarPayPal(); else montarBrick();
   }
@@ -510,13 +536,20 @@ footer strong,footer a{color:var(--white)}
     t.addEventListener('click',function(){
       tab=t.dataset.pay;
       document.querySelectorAll('.paytabs .tab').forEach(function(x){x.setAttribute('aria-selected',x===t)});
-      $('#mp-section').hidden=tab!=='mp'; $('#pp-section').hidden=tab!=='pp';
+      $('#mp-section').hidden=tab!=='mp'; $('#pp-section').hidden=tab!=='pp'; $('#tr-section').hidden=tab!=='tr';
       if(valido()) iniciarPago();
     });
+  });
+  $('#copyAlias').addEventListener('click',function(){
+    var alias=$('#aliasTxt').textContent.trim();
+    function aviso(){ if(BSX.toast) BSX.toast('Alias copiado: '+alias); }
+    function seleccionar(){ var r=document.createRange(); r.selectNodeContents($('#aliasTxt')); var s=getSelection(); s.removeAllRanges(); s.addRange(r); if(BSX.toast) BSX.toast('Copialo manteniendo apretado: '+alias); }
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(alias).then(aviso,seleccionar); } else seleccionar();
   });
   be.addEventListener('input',function(){clearTimeout(deb);deb=setTimeout(gate,600)});
   bo.addEventListener('change',gate);
   gate();
+  BSInstall.render();
 })();
 </script>
 </body>
