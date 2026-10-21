@@ -16,3 +16,4 @@
 .res-who small{display:block;font-weight:500;color:#8A5A6A;font-size:.8rem}
 .res-cta{text-align:center;margin-top:8px;padding:0 16px}
 @media (prefers-reduced-motion:reduce){.mq{overflow-x:auto;-webkit-mask-image:none;mask-image:none}.mq-track{animation:none}.mq-group[aria-hidden="true"]{display:none}}
+.res-nota{max-width:640px;margin:2px auto 0;padding:0 16px;text-align:center;color:#8A5A6A;font-size:.8rem;line-height:1.4}
