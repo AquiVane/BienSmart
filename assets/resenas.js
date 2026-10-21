@@ -25,6 +25,7 @@
     if (veces > 1) { track.textContent = ''; g1 = grupo(base, false); track.appendChild(g1); }
     track.appendChild(grupo(base, true));
     var ancho = g1.getBoundingClientRect().width || w1;
+    if (!sec.querySelector('.res-nota')) { var nota = document.createElement('p'); nota.className = 'res-nota'; nota.textContent = 'Son experiencias personales: los resultados pueden variar según cada persona.'; host.insertAdjacentElement('afterend', nota); }
     track.style.setProperty('--mq-dur', Math.max(24, Math.round(ancho / 55)) + 's');
   }
   window.BSRes = {
