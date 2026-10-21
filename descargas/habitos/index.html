@@ -92,6 +92,9 @@ input[type=email],input[type=password]{font:1rem var(--body);padding:12px 16px;b
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--mid);color:var(--white);padding:12px 22px;border-radius:100px;font-size:.9rem;opacity:0;pointer-events:none;transition:.25s;z-index:40;max-width:calc(100% - 32px);text-align:center}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+.bonos{display:grid;gap:10px;margin-top:12px}.bono{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;background:#fff;border:1px solid #F8BBD9;border-radius:14px}.bono span{font-weight:600;color:#3D1520;min-width:0;overflow-wrap:anywhere}.bono .btn.sm{padding:8px 16px;font-size:.88rem;width:auto;flex:none}
+.med h3{margin:0 0 8px;font-size:1rem}.medg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.medg label{font-size:.72rem;font-weight:700;color:#8A5A6A;display:grid;gap:4px}.medg input{width:100%;font:inherit;padding:9px 8px;border:1.5px solid #F8BBD9;border-radius:10px;background:#fff;color:#3D1520;text-align:center}.meddif:empty{display:none}.meddif{margin:8px 0 0;font-weight:700;color:#C2185B;min-height:1.2em}
 </style>
 </head>
 <body>
@@ -221,16 +224,18 @@ input[type=email],input[type=password]{font:1rem var(--body);padding:12px 16px;b
       }
       html += '</div></section>';
     });
-    var eb = S.archivos.filter(function (a) { return a.id === 'ebook'; })[0];
-    html += '<div class="card soft"><h2>Tu ebook</h2>' + (eb && eb.disponible
-      ? '<p class="muted">El reto completo en PDF, con listas de compras y planilla de seguimiento.</p><button class="btn" id="bajar" type="button">Descargar el ebook</button>'
-      : '<p class="muted">Tu ebook en PDF va a estar disponible acá muy pronto.</p>') + '</div>';
+    html += '<div class="card soft"><h2>Tus bonos</h2><p class="muted">Todo lo que incluye tu reto, para descargar y tener a mano.</p><div class="bonos">' + S.archivos.map(function (a) {
+      return '<div class="bono"><span>' + esc(a.nombre || a.id) + '</span>' + (a.disponible
+        ? '<button class="btn sm" type="button" data-bono="' + esc(a.id) + '">Descargar</button>'
+        : '<em class="muted">Muy pronto</em>') + '</div>';
+    }).join('') + '</div></div>';
+    html += '<div class="card"><h2>Mis medidas</h2><p class="muted">Cargá tus medidas el día 1, 7, 14 y 21 y mirá cuánto avanzaste. La diferencia se calcula sola.</p><a class="btn" href="#medidas">Cargar mis medidas</a></div>';
     html += '<div class="card" id="resCard"></div>';
     html += '<div class="card" data-instalar></div>';
     html += '<p class="tiny">Contenido informativo. No reemplaza la consulta con un profesional de la salud. © 2026 Vanesa Anahí Fernández - COSMART. Todos los derechos reservados. Queda prohibida la reproducción, distribución, comercialización o puesta a disposición de este material, total o parcial, sin autorización previa y por escrito de su titular, salvo los usos permitidos por la legislación aplicable.</p>';
     $('#app').innerHTML = html;
     document.querySelectorAll('.day').forEach(function (b) { b.addEventListener('click', function () { var n = parseInt(b.dataset.d, 10); if (cerrado(n)) toast('Completá el día ' + (n - 1) + ' para abrir este.'); else location.hash = 'd' + n; }); });
-    var bj = $('#bajar'); if (bj) bj.addEventListener('click', descargar);
+    document.querySelectorAll('[data-bono]').forEach(function (b) { b.addEventListener('click', function () { descargar(b.dataset.bono, b); }); });
     BSInstall.render();
     cargarResena();
   }
@@ -265,17 +270,58 @@ input[type=email],input[type=password]{font:1rem var(--body);padding:12px 16px;b
     });
   }
 
-  function descargar() {
-    var b = $('#bajar'); b.disabled = true; b.textContent = 'Descargando…';
-    fetch(BS.cfg.CORE + '/api/bs/ebook', { headers: { Authorization: 'Bearer ' + BS.token() } })
-      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.blob(); })
-      .then(function (bl) {
-        var u = URL.createObjectURL(bl), a = document.createElement('a');
-        a.href = u; a.download = 'Habitos-BienSmart-Reto-21-dias.pdf'; document.body.appendChild(a); a.click(); a.remove();
+  function descargar(id, btn) {
+    var txt = btn.textContent; btn.disabled = true; btn.textContent = 'Descargando…';
+    fetch(BS.cfg.CORE + '/api/bs/archivo?id=' + encodeURIComponent(id), { headers: { Authorization: 'Bearer ' + BS.token() } })
+      .then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        var cd = r.headers.get('Content-Disposition') || '', m = /filename="([^"]+)"/.exec(cd);
+        return r.blob().then(function (bl) { return { bl: bl, nombre: (m && m[1]) || (id + '.pdf') }; });
+      })
+      .then(function (o) {
+        var u = URL.createObjectURL(o.bl), a = document.createElement('a');
+        a.href = u; a.download = o.nombre; document.body.appendChild(a); a.click(); a.remove();
         setTimeout(function () { URL.revokeObjectURL(u); }, 4000);
       })
-      .catch(function () { toast('No pudimos descargar el ebook ahora. Intentá de nuevo en un rato.'); })
-      .then(function () { var x = $('#bajar'); if (x) { x.disabled = false; x.textContent = 'Descargar el ebook'; } });
+      .catch(function () { toast('No pudimos descargar el archivo ahora. Intentá de nuevo en un rato.'); })
+      .then(function () { btn.disabled = false; btn.textContent = txt; });
+  }
+
+  // ── Mis medidas ──
+  var MED = [['cuello', 'Cuello'], ['brazoDer', 'Brazo derecho'], ['brazoIzq', 'Brazo izquierdo'], ['pecho', 'Pecho'], ['cinturaAlta', 'Cintura alta'], ['ombligo', 'Contorno (altura del ombligo)'], ['cadera', 'Cadera'], ['musloDer', 'Muslo derecho'], ['musloIzq', 'Muslo izquierdo'], ['peso', 'Peso (kg, opcional)'], ['altura', 'Altura (cm, opcional)']];
+  var MED_DIAS = [['d1', 'Día 1'], ['d7', 'Día 7'], ['d14', 'Día 14'], ['d21', 'Día 21']];
+  function numMed(v) { var n = parseFloat(String(v).replace(',', '.')); return isFinite(n) && n > 0 ? n : null; }
+  function difMed(m) {
+    var f = null, l = null;
+    MED_DIAS.forEach(function (d) { var v = numMed(m && m[d[0]]); if (v != null) { if (f == null) f = v; l = v; } });
+    if (f == null || l == null || f === l) return '';
+    var x = Math.round((l - f) * 10) / 10; return (x > 0 ? '+' : '') + String(x).replace('.', ',');
+  }
+  function vistaMedidas() {
+    $('#app').innerHTML = '<a class="link back" href="#">← Mis días</a><div><span class="eyebrow">Seguimiento</span><h1 style="margin-top:8px">Mis medidas</h1></div><p class="muted">Medite siempre a la misma hora (idealmente a la mañana, en ayunas) y con la misma cinta, sin apretar. Los números son solo tuyos.</p><div id="medBox"><p class="muted">Cargando…</p></div>';
+    BS.api('/api/bs/medidas', { auth: true }).then(function (r) {
+      var m = (r.ok && r.data && r.data.medidas) || {};
+      var h = MED.map(function (c) {
+        return '<div class="card med" data-c="' + c[0] + '"><h3>' + c[1] + '</h3><div class="medg">' + MED_DIAS.map(function (d) {
+          var v = m[c[0]] && m[c[0]][d[0]] != null ? m[c[0]][d[0]] : '';
+          return '<label>' + d[1] + '<input type="text" inputmode="decimal" data-d="' + d[0] + '" value="' + String(v).replace('.', ',') + '" placeholder="—"></label>';
+        }).join('') + '</div><p class="meddif" aria-live="polite"></p></div>';
+      }).join('');
+      $('#medBox').innerHTML = h + '<button class="btn" id="medGuardar" type="button">Guardar mis medidas</button><p class="muted" id="medMsg" role="status" style="margin-top:8px"></p>';
+      function pintarDif(card) {
+        var o = {}; card.querySelectorAll('input').forEach(function (i) { o[i.dataset.d] = i.value; });
+        var d = difMed(o); card.querySelector('.meddif').textContent = d ? 'Diferencia: ' + d : '';
+      }
+      document.querySelectorAll('.med').forEach(function (c) { pintarDif(c); c.addEventListener('input', function () { pintarDif(c); }); });
+      $('#medGuardar').addEventListener('click', function () {
+        var body = {}; document.querySelectorAll('.med').forEach(function (c) { body[c.dataset.c] = {}; c.querySelectorAll('input').forEach(function (i) { body[c.dataset.c][i.dataset.d] = i.value; }); });
+        var b = $('#medGuardar'); b.disabled = true;
+        BS.api('/api/bs/medidas', { auth: true, method: 'POST', body: { medidas: body } }).then(function (r2) {
+          b.disabled = false; $('#medMsg').textContent = r2.ok ? 'Guardado. ¡Cada centímetro cuenta!' : 'No pudimos guardar. Intentá de nuevo.';
+        });
+      });
+    });
+    window.scrollTo(0, 0);
   }
 
   // ── Día ──
@@ -359,7 +405,8 @@ input[type=email],input[type=password]{font:1rem var(--body);padding:12px 16px;b
   function ruta() {
     var m = /^#d(\d{1,2})$/.exec(location.hash);
     if (!S.lec.length) return;
-    if (m) vistaDia(parseInt(m[1], 10)); else { vistaHome(); window.scrollTo(0, 0); }
+    if (location.hash === '#medidas') { vistaMedidas(); return; }
+    if (m) vistaDia(parseInt(m[1], 10)); else { vistaHome(); if (location.hash === '#resena') { var rc = $('#resCard'); if (rc) rc.scrollIntoView(); } else window.scrollTo(0, 0); }
   }
   window.addEventListener('hashchange', ruta);
 

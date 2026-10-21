@@ -1,6 +1,6 @@
 // Service worker mínimo de la app: guarda la cáscara para abrir rápido y sin conexión.
 // El contenido del reto y el progreso SIEMPRE se piden al servidor (otro dominio): nunca se cachean acá.
-var V = 'bs-v1';
+var V = 'bs-v2';
 var SHELL = ['/descargas/habitos/', '/assets/biensmart.js'];
 self.addEventListener('install', function (e) { e.waitUntil(caches.open(V).then(function (c) { return c.addAll(SHELL); }).then(function () { return self.skipWaiting(); })); });
 self.addEventListener('activate', function (e) {

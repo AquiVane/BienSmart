@@ -194,6 +194,18 @@ footer strong,footer a{color:var(--white)}
 .day-pics{position:relative;height:116px;margin:0 0 14px}
 .day-pics .pol{width:92px;padding:4px 4px 12px;border-radius:5px;box-shadow:0 5px 14px rgba(136,14,79,.25)}
 @media(min-width:700px){.day-pics{height:150px}.day-pics .pol{width:122px}}
+
+.stack{padding:64px 0;background:var(--cream,#FFF9FA)}
+.stack-list{list-style:none;margin:26px auto 0;padding:0;max-width:720px;display:grid;gap:10px}
+.stack-list li{display:flex;align-items:center;justify-content:space-between;gap:16px;background:#fff;border:1px solid #F8BBD9;border-radius:18px;padding:14px 18px;box-shadow:0 8px 20px -16px rgba(136,14,79,.35)}
+.stack-list li:nth-child(even){background:#FCE4EC}
+.stack-list b{display:block;color:#3D1520}.stack-list span{display:block;color:#8A5A6A;font-size:.9rem;line-height:1.4;margin-top:2px}
+.stack-list em{font-style:normal;font-weight:700;color:#880E4F;white-space:nowrap}
+.stack-total{max-width:720px;margin:18px auto 0;display:grid;gap:14px;justify-items:center;text-align:center;background:linear-gradient(135deg,#FCE4EC,#F8BBD9);border-radius:24px;padding:24px 18px}
+.stack-total small{display:block;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:#880E4F}
+.stack-total s{font-size:1.5rem;color:#8A5A6A}.stack-total s span{font-size:1rem}
+.stack-now b{display:block;font-family:'Playfair Display',Georgia,serif;font-size:2.6rem;line-height:1.1;color:#C2185B}.stack-now span{color:#880E4F;font-weight:600}
+@media(max-width:560px){.stack-list li{flex-direction:column;align-items:flex-start;gap:4px}.stack-total .btn{width:100%}}
 </style>
 <link rel="stylesheet" href="/assets/resenas.css">
 </head>
@@ -366,15 +378,28 @@ footer strong,footer a{color:var(--white)}
   </div>
 </section>
 
+<section class="stack" id="bonos">
+  <div class="wrap">
+    <span class="eyebrow">Todo lo que te llevás</span>
+    <h2>Un reto completo, con todo para <em>empezar hoy</em></h2>
+    <ul class="stack-list"><li><div><b>Ebook de 21 días</b><span>105 recetas con ingredientes y paso a paso, tips de nutrición y rutinas</span></div><em>$ 24.000</em></li><li><div><b>App con tu progreso</b><span>Marcá tus días y mirá cómo avanzás, de a uno</span></div><em>$ 15.000</em></li><li><div><b>Recetario visual</b><span>Las comidas de los 21 días, con fotos</span></div><em>$ 13.000</em></li><li><div><b>Grillas semanales de comidas</b><span>Todo el menú de la semana en una sola hoja</span></div><em>$ 10.000</em></li><li><div><b>Listas del súper de las 3 semanas</b><span>Qué comprar cada semana, ordenado por sección</span></div><em>$ 8.000</em></li><li><div><b>Guía y planilla de medidas</b><span>Cómo medirte y dónde anotar tu avance</span></div><em>$ 5.000</em></li><li><div><b>Opciones alternativas de comidas</b><span>Versiones simples para reemplazar cualquier comida</span></div><em>$ 3.000</em></li></ul>
+    <div class="stack-total">
+      <div><small>Valor de referencia de todo junto</small><s>$ 78.000 <span>(USD 50)</span></s></div>
+      <div class="stack-now"><small>Hoy, pago único</small><b>$ 12.000</b><span>USD 7,80</span></div>
+      <a class="btn" href="#comprar">Quiero empezar</a>
+    </div>
+  </div>
+</section>
+
 <section class="buy" id="comprar">
   <div class="wrap buy-grid">
     <div>
       <span class="eyebrow">Tu reto completo</span>
       <h2>Empezá ahora mismo a sentirte con <em>más energía</em></h2>
-      <div style="margin-top:18px"><span class="price-old" aria-label="Precio anterior 24.000 pesos">$ 24.000</span><span class="off-badge">50% OFF</span></div>
+      <div style="margin-top:18px"><span class="price-old" aria-label="Valor de referencia 78.000 pesos">$ 78.000</span> <small style="color:var(--muted,#8A5A6A)">valor de todo lo que incluye</small></div>
       <div class="price">$ 12.000 <small>pago único</small></div>
       <ul class="incl">
-        <li>Ebook en PDF con los 21 días, listas de compras y planilla de seguimiento</li>
+        <li>Ebook en PDF con los 21 días, más recetario, grillas, listas del súper y guía de medidas</li>
         <li>Acceso a la app para marcar tu progreso</li>
         <li>Recibís todo por mail apenas se acredita el pago</li>
       </ul>
@@ -403,7 +428,7 @@ footer strong,footer a{color:var(--white)}
         </ol>
       </div>
       <div class="paysec" id="pp-section" hidden>
-        <p class="hint">Tarjetas internacionales o saldo PayPal. Total: USD 7,80 (antes USD 15).</p>
+        <p class="hint">Tarjetas internacionales o saldo PayPal. Total: USD 7,80 (valor de referencia USD 50).</p>
         <div id="paypal_container"></div>
         <p class="paymsg" id="ppmsg" role="status"></p>
       </div>
