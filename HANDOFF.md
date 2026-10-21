@@ -51,3 +51,6 @@ Los 21 días (comidas, tip, rutina) ya están escritos por Vaneh en su sitio htt
 4. Conectar el formulario de la guía gratuita a `POST /leadmagnet/captura` (training-core) y que entregue la guía por mail.
 5. Frase exacta de derechos de autor del ebook de "IA para Emprendedores" (está dentro del PDF): igualarla.
 6. Ebook PDF, app (PWA con progreso por día), precio de PayPal validado contra `PAYPAL_MIN_USD`.
+
+## 21/10 — Estado final: listo para vender
+Todo está en producción (ver `HANDOFF.md` de `cosmart-workers`, sección "21/10 — Hábitos BienSmart listo para vender"): landing con bonos y precio ($78.000 de referencia tachado, hoy $12.000 / USD 7,80), carrusel de testimonios (`assets/resenas.js|css`, trae `/api/bs/resenas`), collages de fotos (`assets/fotos/`), guía gratuita con fotos y oferta, app con bonos/medidas/reseña y `admin/resenas/`. Las notas de arriba que dicen "pendiente" (ebook, app, guía) quedaron resueltas.
