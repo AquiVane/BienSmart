@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
+<script src="/assets/biensmart.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
@@ -209,6 +210,21 @@ footer strong,footer a{color:var(--white)}
 @media(max-width:560px){.stack-list li{flex-direction:column;align-items:flex-start;gap:4px}.stack-total .btn{width:100%}}
 </style>
 <link rel="stylesheet" href="/assets/resenas.css">
+<link rel="preconnect" href="https://sdk.mercadopago.com" crossorigin>
+<link rel="preconnect" href="https://api.mercadopago.com" crossorigin>
+<link rel="preconnect" href="https://mp-productos-ganadores.conglomeradocosmart.workers.dev" crossorigin>
+<script>
+/* Arranque anticipado del pago: el SDK de Mercado Pago y la preferencia viajan en paralelo desde el primer milisegundo. */
+(function(){
+  if(window.BS_PREVIEW||!window.BS) return;
+  var B=window.BS,C=B.cfg,pre=window.__pre={};
+  pre.sdk=typeof MercadoPago!=='undefined'?Promise.resolve():B.loadScript('https://sdk.mercadopago.com/js/v2');
+  var ctrl=new AbortController(); setTimeout(function(){ctrl.abort()},9000);
+  pre.pref=fetch(C.MP_WORKER+'/preference',{method:'POST',headers:{'Content-Type':'application/json'},signal:ctrl.signal,
+    body:JSON.stringify({items:[{producto:C.PRODUCTO,amount:C.ARS}],fbp:B.cookie('_fbp'),fbc:B.cookie('_fbc'),client_user_agent:navigator.userAgent,event_source_url:location.href,vid:B.vid()})}).then(function(r){return r.json()});
+  pre.sdk.then(function(){ pre.mp=new MercadoPago(C.MP_PUBLIC_KEY,{locale:'es-AR'}); }).catch(function(){}); pre.pref.catch(function(){});
+})();
+</script>
 </head>
 <body>
 
@@ -406,7 +422,7 @@ footer strong,footer a{color:var(--white)}
         <li>Recibís todo por mail apenas se acredita el pago</li>
       </ul>
     </div>
-    <div class="pay off" id="pay">
+    <div class="pay" id="pay">
       <label for="buy-email">Tu email<input type="email" id="buy-email" autocomplete="email" placeholder="maria@mail.com"></label>
       <label class="check" for="buy-ok"><input type="checkbox" id="buy-ok" checked> Entiendo que es un producto digital que se entrega por vía electrónica al acreditarse el pago.</label>
       <p class="hint" id="payHint">Completá tu email y tildá la casilla para elegir cómo pagar.</p>
@@ -467,7 +483,6 @@ footer strong,footer a{color:var(--white)}
 
 <div class="toast" id="toast" role="status"></div>
 
-<script src="/assets/biensmart.js"></script>
 <script src="/assets/resenas.js"></script>
 <script>if(!window.BS_PREVIEW)BSRes.montar("#resenas");</script>
 <script src="/assets/instalar.js"></script>
@@ -491,45 +506,51 @@ footer strong,footer a{color:var(--white)}
   var ok=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   var BSX=window.BS, C=BSX.cfg, PREVIEW=!!window.BS_PREVIEW;
   var pay=$('#pay'),be=$('#buy-email'),bo=$('#buy-ok'),hint=$('#payHint'),tab='mp',brick=null,brickBusy=false,rehacer=false,ppListo=false,deb;
-  function emailPago(){return be.value.trim().toLowerCase()}
+  var emailBrick='';
+  function emailPago(){return (be.value.trim().toLowerCase())||emailBrick}
   function valido(){return ok.test(emailPago())&&bo.checked}
   function items(){return [{producto:C.PRODUCTO,amount:C.ARS}]}
   function meta(){return {fbp:BSX.cookie('_fbp'),fbc:BSX.cookie('_fbc'),client_user_agent:navigator.userAgent,event_source_url:location.href,vid:BSX.vid(),lead_email:emailPago()}}
   function graciasUrl(extra){return '/habitos/gracias/?email='+encodeURIComponent(emailPago())+(extra||'')}
+  // El formulario de pago se carga solo, sin pedir nada antes: el email y la casilla se validan recién al pagar.
   function gate(){
     var good=valido();
-    pay.classList.toggle('off',!good);
-    hint.textContent=good?'Elegí cómo querés pagar.':(!ok.test(emailPago())?'Completá tu email para elegir cómo pagar.':'Tildá la casilla para elegir cómo pagar.');
-    if(good) iniciarPago();
+    hint.textContent=good?'Elegí cómo querés pagar.':(!ok.test(emailPago())?'Completá tu email para terminar el pago.':'Tildá la casilla para terminar el pago.');
   }
   function iniciarPago(){
     if(tab==='tr') return;
     if(PREVIEW){ $('#mpmsg').textContent='Vista previa: acá se carga el formulario de Mercado Pago en esta misma página.'; $('#ppmsg').textContent='Vista previa: acá se cargan los botones de PayPal en esta misma página.'; return; }
     if(tab==='pp') montarPayPal(); else montarBrick();
   }
+  // Precarga: el SDK de Mercado Pago y la preferencia viajan en paralelo apenas carga la página.
+  var sdkMP=null, prefMP=null;
+  function precargarMP(){
+    if(PREVIEW||prefMP) return;
+    if(window.__pre){ sdkMP=window.__pre.sdk; prefMP=window.__pre.pref; return; }
+    sdkMP=(typeof MercadoPago!=='undefined')?Promise.resolve():BSX.loadScript('https://sdk.mercadopago.com/js/v2');
+    var ctrl=new AbortController(); setTimeout(function(){ctrl.abort()},9000);
+    prefMP=fetch(C.MP_WORKER+'/preference',{method:'POST',headers:{'Content-Type':'application/json'},signal:ctrl.signal,body:JSON.stringify(Object.assign({items:items()},meta()))}).then(function(r){return r.json()});
+    sdkMP.catch(function(){}); prefMP.catch(function(){});
+  }
   // Mercado Pago: Payment Brick embebido (nunca se sale de esta página). El monto lo vuelve a fijar el servidor.
   function fallo(){
     $('#mpAlternativa').innerHTML='<div class="msg warn">El formulario de pago está tardando en cargar. <button class="btn ghost" type="button" id="reintentar" style="min-height:44px;margin-top:10px">Reintentar</button><br><span style="font-size:13px">Si sigue sin cargar, escribinos a hola@vamatienda.com.ar y lo resolvemos.</span></div>';
-    $('#reintentar').onclick=function(){$('#mpAlternativa').innerHTML='';montarBrick()};
+    $('#reintentar').onclick=function(){$('#mpAlternativa').innerHTML='';window.__pre=null;prefMP=null;sdkMP=null;montarBrick()};
   }
   async function montarBrick(){
     if(brickBusy){rehacer=true;return}
-    if(!valido()) return;
     brickBusy=true;
     var msg=$('#mpmsg'); msg.textContent=''; msg.className='paymsg';
     var timer=setTimeout(fallo,9000);
     try{
       if(brick){try{await brick.unmount()}catch(e){} brick=null}
       $('#paymentBrick_container').innerHTML='';
-      if(typeof MercadoPago==='undefined') await BSX.loadScript('https://sdk.mercadopago.com/js/v2');
-      var ctrl=new AbortController(), tmo=setTimeout(function(){ctrl.abort()},9000);
-      var r=await fetch(C.MP_WORKER+'/preference',{method:'POST',headers:{'Content-Type':'application/json'},signal:ctrl.signal,body:JSON.stringify(Object.assign({items:items()},meta()))});
-      clearTimeout(tmo);
-      var j=await r.json();
+      precargarMP();
+      var res=await Promise.all([sdkMP,prefMP]); var j=res[1];
       if(!j.preference_id) throw new Error('sin preference_id');
-      var mp=new MercadoPago(C.MP_PUBLIC_KEY,{locale:'es-AR'});
+      var mp=(window.__pre&&window.__pre.mp)||new MercadoPago(C.MP_PUBLIC_KEY,{locale:'es-AR'});
       brick=await mp.bricks().create('payment','paymentBrick_container',{
-        initialization:{amount:C.ARS,preferenceId:j.preference_id,payer:{email:emailPago()}},
+        initialization:Object.assign({amount:C.ARS,preferenceId:j.preference_id},ok.test(emailPago())?{payer:{email:emailPago()}}:{}),
         customization:{visual:{hideFormTitle:true,style:{theme:'default'}},paymentMethods:{creditCard:'all',debitCard:'all',mercadoPago:'all'}},
         callbacks:{
           onReady:function(){clearTimeout(timer)},
@@ -562,7 +583,7 @@ footer strong,footer a{color:var(--white)}
   }
   // PayPal (USD): botones del SDK. Después de capturar, el Worker verifica la orden y el monto antes de dar acceso.
   async function montarPayPal(){
-    if(ppListo||!valido()) return;
+    if(ppListo) return;
     var msg=$('#ppmsg');
     try{
       if(typeof paypal==='undefined') await BSX.loadScript('https://www.paypal.com/sdk/js?client-id='+C.PAYPAL_CLIENT_ID+'&currency=USD&intent=capture');
@@ -570,7 +591,7 @@ footer strong,footer a{color:var(--white)}
     ppListo=true;
     paypal.Buttons({
       style:{layout:'vertical',color:'gold',shape:'pill',label:'pay',height:48},
-      onClick:function(d,actions){ if(!valido()){hint.textContent='Completá tu email para pagar.';be.focus();return actions.reject()} return actions.resolve() },
+      onClick:function(d,actions){ if(!bo.checked){hint.textContent='Tildá la casilla de producto digital para pagar.';return actions.reject()} return actions.resolve() },
       createOrder:function(d,actions){ return actions.order.create({purchase_units:[{description:'Hábitos BienSmart — Reto de 21 días',amount:{value:C.USD.toFixed(2),currency_code:'USD'}}]}) },
       onApprove:function(d,actions){
         msg.className='paymsg'; msg.textContent='Procesando pago…';
@@ -590,7 +611,7 @@ footer strong,footer a{color:var(--white)}
       tab=t.dataset.pay;
       document.querySelectorAll('.paytabs .tab').forEach(function(x){x.setAttribute('aria-selected',x===t)});
       $('#mp-section').hidden=tab!=='mp'; $('#pp-section').hidden=tab!=='pp'; $('#tr-section').hidden=tab!=='tr';
-      if(valido()) iniciarPago();
+      iniciarPago();
     });
   });
   $('#copyAlias').addEventListener('click',function(){
@@ -599,9 +620,12 @@ footer strong,footer a{color:var(--white)}
     function seleccionar(){ var r=document.createRange(); r.selectNodeContents($('#aliasTxt')); var s=getSelection(); s.removeAllRanges(); s.addRange(r); if(BSX.toast) BSX.toast('Copialo manteniendo apretado: '+alias); }
     if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(alias).then(aviso,seleccionar); } else seleccionar();
   });
-  be.addEventListener('input',function(){clearTimeout(deb);deb=setTimeout(gate,600)});
+  be.addEventListener('input',gate);
   bo.addEventListener('change',gate);
   gate();
+  // arranca ya: el Brick aparece solo; el SDK de PayPal queda cargado para cuando elijan esa pestaña
+  iniciarPago();
+  if(!PREVIEW) setTimeout(function(){ if(typeof paypal==='undefined') BSX.loadScript('https://www.paypal.com/sdk/js?client-id='+C.PAYPAL_CLIENT_ID+'&currency=USD&intent=capture').catch(function(){}); },1200);
   BSInstall.render();
 })();
 </script>
