@@ -2,9 +2,14 @@
 
 Actualizado: 2026-10-18. Zona horaria: Buenos Aires (UTC-3). Idioma: español rioplatense. Vaneh se comunica solo en español.
 
+## 22/10 — Hosting migrado de GitHub Pages a Cloudflare Pages — EN PRODUCCIÓN
+- **Motivo:** los términos de GitHub Pages no permiten usarlo como hosting de un negocio/e-commerce (acá se vende el reto de hábitos). Pedido de Vaneh.
+- **Ahora:** proyecto **Cloudflare Pages `biensmart`** (preview `biensmart.pages.dev`) conectado a `AquiVane/BienSmart`, rama `main`, sin build, salida = raíz. Dominio personalizado: `biensmart.vamatienda.com.ar` (zona `vamatienda.com.ar`: el CNAME a `aquivane.github.io` se borró y Cloudflare creó el suyo). GitHub Pages **despublicado**; se borró `CNAME`. Cada push a `main` se publica solo.
+- **Comportamiento:** `/habitos` redirige a `/habitos/` (igual que antes); una URL inexistente devuelve el `index.html` con 200 (GitHub daba 404). Verificado en desktop y mobile: home, `/habitos/` (Brick de Mercado Pago + PayPal cargan solos), gracias, guía gratuita, `/registro/`, `/reset-password/`, `/descargas/`. Los mails del pie los oculta la protección de Cloudflare de la zona.
+
 ## Qué es
 Producto digital de Aquí Vaneh: **reto de 21 días "Sin harinas ni azúcar"**. Se vende un ebook PDF y el acceso a una app de progreso. No hay acompañamiento personal (no mencionarlo en ningún texto).
-- Dominio: `biensmart.vamatienda.com.ar` (archivo `CNAME`; Vaneh crea el subdominio en Cloudflare).
+- Dominio: `biensmart.vamatienda.com.ar` (Cloudflare Pages, proyecto `biensmart`; desde el 22/10 ya no hay `CNAME` en el repo).
 - Rutas: `/habitos/` (landing de venta), `/habitos/guia-gratuita/` (mini guía), `/descargas/` (app; hoy es un placeholder "Tu app está en camino"). `/` redirige a la landing.
 - Ebook PDF y app: pendientes.
 - Mini guía gratuita (lead magnet): página propia `habitos/guia-gratuita/index.html` (formulario y gracias con botón a la landing de venta). La landing de venta NO lleva la guía. Texto de la guía pendiente de escribir. Título propuesto: "5 desayunos sin harina ni azúcar, listos en 10 minutos".
